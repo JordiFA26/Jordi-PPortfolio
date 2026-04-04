@@ -208,6 +208,8 @@
       overflow: hidden;
       position: relative;
       transition: border-color 0.2s, background 0.2s;
+      position: sticky;
+      top: 7rem;
     }
     .about-portrait:hover { border-color: rgba(122,174,232,0.5); background: rgba(255,255,255,0.07); }
     .about-portrait-icon { font-size: 2.2rem; opacity: 0.3; }
@@ -314,9 +316,8 @@
     @media (max-width: 768px) {
       .hero { grid-template-columns: 1fr; padding-top: 7rem; }
       .hero-visual { display: none; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .about-grid > div:first-child { order: 1; }
-      .about-portrait { order: 2; position: static; width: 100%; max-width: 260px; margin: 0 auto; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-portrait { position: static; width: 100%; max-width: 300px; margin: 0 auto; }
       .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
       .nav-links { display: none; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
@@ -374,8 +375,11 @@
       </div>
     </div>
 
-      <div class="about-portrait">
-        <img alt="Jordi Facha Álvarez" src="portrait.jpg" style="display:block;" />
+      <div class="about-portrait" onclick="this.querySelector('input').click()">
+        <span class="about-portrait-icon">📷</span>
+        <span>Add portrait photo</span>
+        <input type="file" accept="image/*" onchange="previewPhoto(this)" />
+        <img alt="Portrait" />
       </div>
   </div>
 </section>
@@ -387,7 +391,7 @@
     <p class="section-sub">Real projects that showcase my interests and what I'm capable of creating.</p>
   </div>
   <div class="projects-grid reveal">
-    <a href="podcast.html" class="project-card">
+    <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" class="project-card">
       <div class="project-icon">🎙</div>
       <div class="project-title">Inside The Machine Podcast</div>
       <p class="project-desc">Inside the Machine explores how engineering, design, and aerodynamics shape the performance and identity of cars, from road vehicles to race machines, while talking with people involved in the motorsports world.</p>
@@ -405,7 +409,7 @@
       <span class="project-tag">Motorsport</span>
       <span class="project-tag">Applied Physics</span>
     </a>
-    <a href="services.html" class="project-card">
+    <a href="services.html" target="_blank" class="project-card">
       <div class="project-icon">🤝</div>
       <div class="project-title">Services</div>
       <p class="project-desc">With over a decade of involvement in clubs, charitable initiatives, and foundations, including serving as President of the Global Citizens Club. I am proud to share some of my work here.</p>
@@ -415,7 +419,7 @@
       <span class="project-tag">Initiative</span>
       <span class="project-tag">Community</span>
     </a>
-    <a href="investment-club.html" class="project-card">
+    <a href="#" class="project-card">
       <div class="project-icon">📈</div>
       <div class="project-title">AI Investment Club</div>
       <p class="project-desc">We foster collaborative investment learning, sharing insights and strategies while educating new investors. Focused on long-term growth, we simplify markets, build financial understanding, and empower confident, informed decisions for sustainable wealth.</p>

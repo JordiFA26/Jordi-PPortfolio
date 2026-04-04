@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Investment Club — Jordi Facha Álvarez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --ink: #0d1b2e;
+      --muted: #5a6e87;
+      --highlight: #2255a4;
+      --card: #f2f5f9;
+      --border: #dde3ec;
+      --radius: 16px;
+      --shadow: rgba(13, 27, 46, 0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 5vw;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      letter-spacing: -0.5px;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .back-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--highlight); }
+
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10rem 5vw 5rem;
+      background: var(--ink);
+      color: #fff;
+    }
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #7aaee8;
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.0;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: #7aaee8; }
+    .hero-sub {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 55ch;
+      line-height: 1.75;
+    }
+
+    .content {
+      padding: 6rem 5vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+    .coming-soon-icon { font-size: 4rem; }
+    .coming-soon-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -1px;
+    }
+    .coming-soon-text {
+      color: var(--muted);
+      max-width: 45ch;
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 1.8rem;
+      border-radius: 100px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--ink);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .btn:hover { background: var(--highlight); transform: translateY(-2px); box-shadow: 0 8px 24px var(--shadow); }
+
+    footer {
+      border-top: 1.5px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .chart-section {
+      padding: 5rem 5vw;
+      background: var(--bg);
+    }
+    .chart-section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .chart-section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      color: var(--ink);
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .chart-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4rem;
+      flex-wrap: wrap;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .pie-container {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      flex-shrink: 0;
+    }
+    canvas#pieChart { width: 300px; height: 300px; }
+    .pie-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .pie-center-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      max-width: 80px;
+      line-height: 1.3;
+    }
+    .pie-center-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+      line-height: 1;
+      margin-top: 0.2rem;
+    }
+    .legend {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      min-width: 220px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .legend-item:hover { opacity: 0.75; }
+    .legend-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .legend-info { display: flex; flex-direction: column; }
+    .legend-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .legend-pct {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+
+    @media (max-width: 600px) {
+      .chart-wrapper { gap: 2.5rem; }
+      .pie-container { width: 240px; height: 240px; }
+      canvas#pieChart { width: 240px; height: 240px; }
+    }
+
+    /* HOLDINGS */
+    .holdings-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 5vw 5rem;
+    }
+    .holdings-intro {
+      font-size: 0.92rem;
+      color: var(--muted);
+      line-height: 1.75;
+      text-align: center;
+      margin-bottom: 2.5rem;
+      font-style: italic;
+    }
+    .holdings-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+      margin-bottom: 1.2rem;
+    }
+    .top-holdings { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+    .holding-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 55px;
+      align-items: center;
+      gap: 1rem;
+    }
+    .holding-name { font-size: 0.88rem; color: var(--ink); font-weight: 400; }
+    .holding-bar-wrap {
+      background: var(--card);
+      border-radius: 100px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .holding-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #1a3a6b, #4a90d9);
+      border-radius: 100px;
+      max-width: 100%;
+      animation: growBar 1s ease both;
+    }
+    @keyframes growBar {
+      from { transform: scaleX(0); transform-origin: left; }
+      to   { transform: scaleX(1); transform-origin: left; }
+    }
+    .holding-pct { font-size: 0.82rem; color: var(--highlight); font-weight: 600; text-align: right; }
+
+    /* DROPDOWN */
+    .dropdown-wrap { margin-top: 1rem; }
+    .dropdown-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 0.7rem 1.4rem;
+      font-size: 0.88rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .dropdown-btn:hover { border-color: var(--highlight); background: #fff; }
+    .chevron { transition: transform 0.3s ease; flex-shrink: 0; color: var(--muted); }
+    .chevron.open { transform: rotate(180deg); }
+    .dropdown-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+      opacity: 0;
+      margin-top: 1rem;
+    }
+    .dropdown-list.open { max-height: 1200px; opacity: 1; }
+    .portfolio-grid { display: flex; flex-direction: column; gap: 0; }
+    .portfolio-item:nth-child(odd) { background: var(--card); }
+    .p-name { font-size: 0.88rem; color: var(--ink); }
+    .p-pct { font-size: 0.82rem; color: var(--highlight); font-weight: 600; }
+    .company-logo {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: #fff;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .portfolio-item {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1rem;
+      border-radius: 10px;
+      transition: background 0.15s;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Jordi Facha Álvarez</a>
+  <a href="index.html" class="back-link">← Back to portfolio</a>
+</nav>
+
+<section class="hero">
+  <p class="hero-label">AI Investment Club</p>
+  <h1>Investing in<br>the <em>future.</em></h1>
+  <p class="hero-sub">We foster collaborative investment learning, sharing insights and strategies while educating new investors. Focused on long-term growth, we simplify markets, build financial understanding, and empower confident, informed decisions for sustainable wealth.</p>
+</section>
+
+<section class="chart-section">
+  <p class="chart-section-label">Portfolio Allocation</p>
+  <h2 class="chart-section-title">Current Investment Breakdown</h2>
+  <div class="chart-wrapper">
+    <div class="pie-container">
+      <canvas id="pieChart" width="300" height="300"></canvas>
+      <div class="pie-center">
+        <span class="pie-center-label">Total</span>
+        <span class="pie-center-value">100%</span>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#1a3a6b;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Growth / Speculative</span>
+          <span class="legend-pct">45.98%</span>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#2255a4;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Value / Dividends</span>
+          <span class="legend-pct">27.30%</span>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#4a90d9;"></div>
+        <div class="legend-info">
+          <span class="legend-name">ETFs</span>
+          <span class="legend-pct">14.76%</span>
+        </div>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#7aaee8;"></div>
+        <div class="legend-info">
+          <span class="legend-name">Large Cap Tech</span>
+          <span class="legend-pct">11.95%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="holdings-section">
+  <p class="holdings-intro">The following are some of the companies in my portfolio, selected to illustrate its diversity across sectors and geographies. They are not necessarily my highest-yielding positions or largest holdings by weight — simply a snapshot of the range of opportunities I've invested in.</p>
+
+  <h3 class="holdings-title">Notable Holdings</h3>
+  <div class="top-holdings">
+    <div class="holding-row">
+      <span class="holding-name">Planet Labs</span>
+      <div class="holding-bar-wrap"><div class="holding-bar" style="width:11.2%"></div></div>
+      <span class="holding-pct">11.20%</span>
+    </div>
+    <div class="holding-row">
+      <span class="holding-name">Repsol</span>
+      <div class="holding-bar-wrap"><div class="holding-bar" style="width:8.4%"></div></div>
+      <span class="holding-pct">8.40%</span>
+    </div>
+    <div class="holding-row">
+      <span class="holding-name">AST SpaceMobile</span>
+      <div class="holding-bar-wrap"><div class="holding-bar" style="width:6.47%"></div></div>
+      <span class="holding-pct">6.47%</span>
+    </div>
+    <div class="holding-row">
+      <span class="holding-name">S&amp;P 500 ETF</span>
+      <div class="holding-bar-wrap"><div class="holding-bar" style="width:4.21%"></div></div>
+      <span class="holding-pct">4.21%</span>
+    </div>
+    <div class="holding-row">
+      <span class="holding-name">LVMH</span>
+      <div class="holding-bar-wrap"><div class="holding-bar" style="width:4.17%"></div></div>
+      <span class="holding-pct">4.17%</span>
+    </div>
+  </div>
+
+  <div class="dropdown-wrap">
+    <button class="dropdown-btn" onclick="togglePortfolio(this)">
+      <span>View Full Portfolio</span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="dropdown-list" id="fullPortfolio">
+      <div class="portfolio-grid">
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/planetlabs.com" alt="Planet Labs" /><span class="p-name">Planet Labs</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/repsol.com" alt="Repsol" /><span class="p-name">Repsol</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/vanguard.com" alt="FTSE All World High Dividend" /><span class="p-name">FTSE All World High Dividend</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/krakenrobotics.com" alt="Kraken Robotics" /><span class="p-name">Kraken Robotics</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/bayer.com" alt="Bayer" /><span class="p-name">Bayer</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/nebius.com" alt="Nebius Group" /><span class="p-name">Nebius Group</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/ast-science.com" alt="AST SpaceMobile" /><span class="p-name">AST SpaceMobile</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/emcorgroup.com" alt="EMCOR Group" /><span class="p-name">EMCOR Group</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/bancosantander.es" alt="Banco Santander" /><span class="p-name">Banco Santander</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/rivian.com" alt="Rivian" /><span class="p-name">Rivian</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/blackrock.com" alt="S&P 500 ETF" /><span class="p-name">S&amp;P 500 ETF</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/lvmh.com" alt="LVMH" /><span class="p-name">LVMH</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/metals.co" alt="The Metals Company" /><span class="p-name">The Metals Company</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/vanguard.com" alt="FTSE All-World ETF" /><span class="p-name">FTSE All-World ETF</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/berkshirehathaway.com" alt="Berkshire Hathaway" /><span class="p-name">Berkshire Hathaway</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/amazon.com" alt="Amazon" /><span class="p-name">Amazon</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/apple.com" alt="Apple" /><span class="p-name">Apple</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/microsoft.com" alt="Microsoft" /><span class="p-name">Microsoft</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/google.com" alt="Google" /><span class="p-name">Google</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/nvidia.com" alt="NVIDIA" /><span class="p-name">NVIDIA</span></div>
+        <div class="portfolio-item"><img class="company-logo" src="https://logo.clearbit.com/tesla.com" alt="Tesla" /><span class="p-name">Tesla</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+  <span>© 2026 Jordi Facha Álvarez</span>
+  <span>Made with 🧡</span>
+</footer>
+
+<script>
+  function togglePortfolio(btn) {
+    const list = document.getElementById('fullPortfolio');
+    const chevron = btn.querySelector('.chevron');
+    list.classList.toggle('open');
+    chevron.classList.toggle('open');
+  }
+
+  const data = [
+    { label: 'Growth / Speculative', value: 45.98, color: '#1a3a6b' },
+    { label: 'Value / Dividends',    value: 27.30, color: '#2255a4' },
+    { label: 'ETFs',                 value: 14.76, color: '#4a90d9' },
+    { label: 'Large Cap Tech',       value: 11.95, color: '#7aaee8' },
+  ];
+
+  const canvas = document.getElementById('pieChart');
+  const ctx = canvas.getContext('2d');
+  const cx = canvas.width / 2;
+  const cy = canvas.height / 2;
+  const radius = canvas.width * 0.42;
+  const innerRadius = radius * 0.58;
+  const total = data.reduce((s, d) => s + d.value, 0);
+  const gap = 0.03;
+
+  let animProgress = 0;
+  const duration = 1200;
+  let startTime = null;
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function drawChart(progress) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let startAngle = -Math.PI / 2;
+    const targetAngles = data.map(d => (d.value / total) * Math.PI * 2);
+
+    data.forEach((d, i) => {
+      const sliceAngle = targetAngles[i] * progress;
+      const endAngle = startAngle + sliceAngle - (progress < 1 ? 0 : gap);
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.arc(cx, cy, radius, startAngle + gap / 2, endAngle, false);
+      ctx.arc(cx, cy, innerRadius, endAngle, startAngle + gap / 2, true);
+      ctx.closePath();
+      ctx.fillStyle = d.color;
+      ctx.fill();
+      startAngle += targetAngles[i];
+    });
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, innerRadius, 0, Math.PI * 2);
+    ctx.fillStyle = '#ffffff';
+    ctx.fill();
+  }
+
+  function animate(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    animProgress = easeOutCubic(Math.min(elapsed / duration, 1));
+    drawChart(animProgress);
+    if (animProgress < 1) requestAnimationFrame(animate);
+  }
+
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+    const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+    const dx = mx - cx, dy = my - cy;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const centerVal = document.querySelector('.pie-center-value');
+    const centerLbl = document.querySelector('.pie-center-label');
+
+    if (dist > innerRadius && dist < radius) {
+      let angle = Math.atan2(dy, dx) + Math.PI / 2;
+      if (angle < 0) angle += Math.PI * 2;
+      let cumulative = 0;
+      let found = null;
+      data.forEach(d => {
+        const slice = (d.value / total) * Math.PI * 2;
+        if (angle >= cumulative && angle < cumulative + slice) found = d;
+        cumulative += slice;
+      });
+      if (found) {
+        centerVal.textContent = found.value.toFixed(2) + '%';
+        centerLbl.textContent = found.label;
+        return;
+      }
+    }
+    centerVal.textContent = '100%';
+    centerLbl.textContent = 'Total';
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    document.querySelector('.pie-center-value').textContent = '100%';
+    document.querySelector('.pie-center-label').textContent = 'Total';
+  });
+
+  requestAnimationFrame(animate);
+</script>
+
+</body>
+</html>
