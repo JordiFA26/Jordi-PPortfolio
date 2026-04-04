@@ -231,10 +231,91 @@
     .platform-handle { font-size: 0.82rem; color: var(--muted); }
     .platform-arrow { margin-left: auto; color: var(--muted); font-size: 1.1rem; }
 
-    /* FOOTER */
-    footer {
-      border-top: 1.5px solid var(--border);
-      padding: 2rem 5vw;
+    /* LATEST EPISODE */
+    .episode-section {
+      padding: 5rem 5vw;
+      background: var(--bg);
+    }
+    .episode-inner {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+    .episode-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 1rem;
+    }
+    .episode-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+    .episode-card {
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .episode-card:hover { box-shadow: 0 12px 40px var(--shadow); transform: translateY(-3px); }
+    .episode-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .episode-thumb iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .episode-body { padding: 1.8rem; }
+    .episode-badge {
+      display: inline-block;
+      background: var(--ink);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 100px;
+      margin-bottom: 0.9rem;
+    }
+    .episode-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+    .episode-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .episode-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--highlight);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .episode-cta:hover { gap: 0.8rem; }
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -299,6 +380,28 @@
 </section>
 
 <!-- LINKS -->
+<section class="episode-section">
+  <div class="episode-inner">
+    <p class="episode-label">🎙 New episode</p>
+    <h2 class="episode-title">Check out the latest episode.</h2>
+    <div class="episode-card">
+      <div class="episode-thumb">
+        <iframe
+          src="https://www.youtube.com/embed/OgotbiAKBLc"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="episode-body">
+        <span class="episode-badge">Latest Episode</span>
+        <div class="episode-name">Inside The Machine — New Episode Out Now</div>
+        <p class="episode-desc">Tune in to the latest conversation on Inside The Machine, where we dive deep into the engineering, aerodynamics, and stories behind motorsport's most fascinating machines — with guests from inside the industry.</p>
+        <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" class="episode-cta">Watch on YouTube →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="links-section">
   <div class="links-inner">
     <p class="links-label">Find us on</p>
@@ -309,6 +412,14 @@
         <div class="platform-info">
           <span class="platform-name">YouTube</span>
           <span class="platform-handle">@InsideTheMachinePodcast</span>
+        </div>
+        <span class="platform-arrow">→</span>
+      </a>
+      <a href="https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1?si=9143jzpbRFCdhy098NtsAw" target="_blank" class="platform-link">
+        <span class="platform-icon">🎵</span>
+        <div class="platform-info">
+          <span class="platform-name">Spotify</span>
+          <span class="platform-handle">Inside The Machine Podcast</span>
         </div>
         <span class="platform-arrow">→</span>
       </a>
@@ -331,11 +442,3 @@
     </div>
   </div>
 </section>
-
-<footer>
-  <span>© 2026 Jordi Facha Álvarez — Inside The Machine</span>
-  <span>Made with 🧡</span>
-</footer>
-
-</body>
-</html>
