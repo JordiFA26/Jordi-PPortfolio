@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio — Jordi Facha Álvarez</title>
+  <meta name="description" content="Jordi Facha Álvarez — Automotive &amp; Industrial Engineering student at Universidad Francisco de Vitoria (Madrid) and host of the Inside The Machine motorsport podcast." />
+  <meta property="og:title" content="Jordi Facha Álvarez — Portfolio" />
+  <meta property="og:description" content="Engineering student at Universidad Francisco de Vitoria and host of the Inside The Machine podcast." />
+  <meta property="og:image" content="portrait.jpg" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏎</text></svg>" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -221,6 +227,37 @@
       display: none;
     }
 
+    /* EDUCATION */
+    .edu-timeline { display: flex; flex-direction: column; gap: 1.2rem; max-width: 900px; }
+    .edu-item {
+      display: grid; grid-template-columns: 64px 1fr; gap: 1.4rem;
+      background: var(--card); border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 1.8rem;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .edu-item:hover { border-color: var(--ink); transform: translateY(-2px); box-shadow: 0 8px 28px var(--shadow); }
+    .edu-item.current { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .edu-icon {
+      width: 64px; height: 64px; border-radius: 14px;
+      background: var(--ink); color: #fff;
+      display: flex; align-items: center; justify-content: center; font-size: 1.7rem;
+    }
+    .edu-item.current .edu-icon { background: #fff; }
+    .edu-status {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--highlight); margin-bottom: 0.4rem;
+    }
+    .edu-item.current .edu-status { color: #7aaee8; }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 0 rgba(74,222,128,0.6); animation: pulse 2s infinite; }
+    .edu-degree { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.25rem; line-height: 1.25; margin-bottom: 0.25rem; }
+    .edu-school { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.8rem; }
+    .edu-item.current .edu-school { color: rgba(255,255,255,0.65); }
+    .edu-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+    .edu-item.current .edu-desc { color: rgba(255,255,255,0.72); }
+    .edu-item .project-tag { margin-top: 0.9rem; }
+    .edu-item.current .project-tag { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.75); }
+
     /* PROJECTS */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
     .project-card {
@@ -305,6 +342,11 @@
       from { opacity: 0; transform: translateY(30px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(74,222,128,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
       50%       { transform: translateY(-8px); }
@@ -317,7 +359,14 @@
       .about-grid { grid-template-columns: 1fr !important; gap: 2rem; }
       .about-portrait { display: block; width: 100%; max-width: 280px; margin: 0 auto; }
       .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      .nav-links { display: none; }
+      nav { padding: 1rem 16px; flex-direction: column; gap: 0.6rem; }
+      .nav-links { gap: 1.1rem; flex-wrap: wrap; justify-content: center; }
+      .nav-links a { font-size: 0.72rem; }
+      .hero { padding: 10.5rem 16px 3rem; min-height: auto; }
+      section[id] { scroll-margin-top: 140px; }
+      section { padding: 4rem 16px; }
+      .edu-item { grid-template-columns: 1fr; gap: 1rem; padding: 1.4rem; }
+      .edu-icon { width: 52px; height: 52px; font-size: 1.4rem; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
 
@@ -330,7 +379,9 @@
   <a href="#" class="nav-logo">Jordi Facha Álvarez</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
     <li><a href="#projects">Projects</a></li>
+    <li><a href="podcast.html">Podcast</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
@@ -338,9 +389,9 @@
 
 <section class="hero">
   <div class="hero-text">
-    <span class="hero-tag">🎙 Podcaster & Future Engineer</span>
+    <span class="hero-tag">🎓 Engineering Student · 🎙 Podcaster</span>
     <h1>Hi, I'm<br><em>Jordi Facha Álvarez.</em></h1>
-    <p class="hero-sub">Student passionate about technology and communication. I create content, experiment with ideas, and am working toward studying Engineering.</p>
+    <p class="hero-sub">Automotive &amp; Industrial Engineering student at Universidad Francisco de Vitoria in Madrid, and host of <a href="podcast.html" style="color:var(--highlight);text-decoration:none;font-weight:400;">Inside The Machine</a> — a podcast on the engineering, design and people behind motorsport.</p>
     <div class="hero-actions">
       <a href="#projects" class="btn btn-primary">View projects →</a>
       <a href="#contact" class="btn btn-outline">Contact me</a>
@@ -350,8 +401,8 @@
     <div class="avatar-wrap">
       <div class="avatar-bg"></div>
       <div class="avatar-initials">JF</div>
-      <div class="floating-badge badge-1"><div class="badge-dot"></div>Active podcast</div>
-      <div class="floating-badge badge-2">🎓 Future engineer</div>
+      <div class="floating-badge badge-1"><div class="badge-dot"></div>New: Ep. 6 out now</div>
+      <div class="floating-badge badge-2">🎓 UFV · Madrid</div>
     </div>
   </div>
 </section>
@@ -379,6 +430,39 @@
   </div>
 </section>
 
+<section id="education">
+  <div class="reveal">
+    <p class="section-label">Education</p>
+    <h2 class="section-title">Where I'm learning.</h2>
+    <p class="section-sub">The foundations I'm building my engineering career on.</p>
+  </div>
+  <div class="edu-timeline reveal">
+    <div class="edu-item current">
+      <div class="edu-icon">🏎</div>
+      <div>
+        <div class="edu-status"><span class="live-dot"></span>Currently studying</div>
+        <div class="edu-degree">Automotive &amp; Industrial Engineering</div>
+        <div class="edu-school">Universidad Francisco de Vitoria (UFV) · Madrid, Spain</div>
+        <p class="edu-desc">Turning a lifelong curiosity for how cars work into an engineering career — studying the mechanics, design and manufacturing behind modern vehicles and industrial systems, while applying it hands-on through the podcast and my own research.</p>
+        <span class="project-tag">Vehicle Engineering</span>
+        <span class="project-tag">Industrial Systems</span>
+        <span class="project-tag">Design</span>
+        <span class="project-tag">Motorsport</span>
+      </div>
+    </div>
+    <div class="edu-item">
+      <div class="edu-icon">📘</div>
+      <div>
+        <div class="edu-status">Completed</div>
+        <div class="edu-degree">International Baccalaureate (IB) Diploma</div>
+        <div class="edu-school">Higher Level Physics &amp; Chemistry</div>
+        <p class="edu-desc">Completed the IB Diploma, including an Extended Essay research paper on how rear wing length affects downforce on a model Porsche 911 RSR.</p>
+        <a href="aerodynamics-research-paper.pdf" target="_blank" rel="noopener" class="project-tag" style="text-decoration:none;">📄 Read the research paper →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="projects">
   <div class="reveal">
     <p class="section-label">Projects</p>
@@ -389,12 +473,13 @@
     <a href="podcast.html" class="project-card">
       <div class="project-icon">🎙</div>
       <div class="project-title">Inside The Machine Podcast</div>
-      <p class="project-desc">Inside the Machine explores how engineering, design, and aerodynamics shape the performance and identity of cars, from road vehicles to race machines, while talking with people involved in the motorsports world.</p>
+      <p class="project-desc">Inside the Machine explores how engineering, design, and aerodynamics shape the performance and identity of cars, from road vehicles to race machines, while talking with people involved in the motorsports world. 7 episodes so far in English &amp; Spanish — the latest from Monterey Car Week.</p>
+      <span class="project-tag">🆕 Ep. 6 out now</span>
       <span class="project-tag">Audio</span>
       <span class="project-tag">Communication</span>
       <span class="project-tag">Content</span>
     </a>
-    <a href="aerodynamics-research-paper.pdf" target="_blank" class="project-card">
+    <a href="aerodynamics-research-paper.pdf" target="_blank" rel="noopener" class="project-card">
       <div class="project-icon">🌬️</div>
       <div class="project-title">Aerodynamics Research Paper</div>
       <p class="project-desc">My IB Diploma Research Paper (EE) rigorously investigated the impact of rear wing length variation on downforce generation in a model Porsche 911 RSR, integrating aerodynamic theory with controlled experimentation to analyze performance optimization in motorsport engineering.</p>
@@ -482,16 +567,16 @@
       <div>
         <p class="contact-group-label">Personal</p>
         <div class="social-links">
-          <a href="https://instagram.com/Jordi_fa_" target="_blank" class="social-link"><span class="social-icon">📸</span> @Jordi_fa_</a>
+          <a href="https://instagram.com/Jordi_fa_" target="_blank" rel="noopener" class="social-link"><span class="social-icon">📸</span> @Jordi_fa_</a>
         </div>
       </div>
       <div>
         <p class="contact-group-label">Podcast</p>
         <div class="social-links">
-          <a href="#" onclick="window.location='mai'+'lto:'+'Insidethemachinepodcast'+'@'+'gmail.com'; return false;" class="social-link"><span class="social-icon">✉️</span> Insidethemachinepodcast@gmail.com</a>
-          <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" class="social-link"><span class="social-icon">▶️</span> YouTube — Inside The Machine</a>
-          <a href="https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1?si=9143jzpbRFCdhy098NtsAw" target="_blank" class="social-link"><span class="social-icon">🎵</span> Spotify — Inside The Machine</a>
-          <a href="https://instagram.com/inside_the_machine_podcast" target="_blank" class="social-link"><span class="social-icon">📸</span> @inside_the_machine_podcast</a>
+          <a href="mailto:Insidethemachinepodcast@gmail.com" class="social-link"><span class="social-icon">✉️</span> Insidethemachinepodcast@gmail.com</a>
+          <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" rel="noopener" class="social-link"><span class="social-icon">▶️</span> YouTube — Inside The Machine</a>
+          <a href="https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1" target="_blank" rel="noopener" class="social-link"><span class="social-icon">🎵</span> Spotify — Inside The Machine</a>
+          <a href="https://instagram.com/inside_the_machine_podcast" target="_blank" rel="noopener" class="social-link"><span class="social-icon">📸</span> @inside_the_machine_podcast</a>
         </div>
       </div>
     </div>
@@ -503,7 +588,7 @@
   <span>Made with 🧡</span>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const reveals = document.querySelectorAll('.reveal');
 
   if ('IntersectionObserver' in window) {
@@ -553,4 +638,10 @@
     }
 
     const subject = encodeURIComponent(`Portfolio message from ${name}`);
-    const body    = encodeURIComponent(`Name: ${name}\
+    const body    = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+    window.location.href = `mailto:Insidethemachinepodcast@gmail.com?subject=${subject}&body=${body}`;
+  }
+</script>
+
+</body>
+</html>

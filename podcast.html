@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inside The Machine — Jordi Facha Álvarez</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <meta name="description" content="Inside The Machine — a podcast by Jordi Facha Álvarez on the engineering, design and people behind motorsport and car culture. Watch on YouTube, listen on Spotify." />
+  <meta property="og:title" content="Inside The Machine Podcast" />
+  <meta property="og:description" content="Engineering, design and the people behind motorsport — hosted by Jordi Facha Álvarez." />
+  <meta property="og:image" content="https://i.ytimg.com/vi/sJJQrwBFWhQ/hqdefault.jpg" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎙</text></svg>" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -27,6 +33,7 @@
       font-family: 'DM Sans', sans-serif;
       font-weight: 300;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     /* NAV */
@@ -37,6 +44,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem;
       padding: 1.2rem 5vw;
       background: rgba(255,255,255,0.92);
       backdrop-filter: blur(14px);
@@ -49,23 +57,23 @@
       letter-spacing: -0.5px;
       color: var(--ink);
       text-decoration: none;
+      white-space: nowrap;
     }
-    .back-link {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
+    .nav-links a {
       text-decoration: none;
       color: var(--muted);
       font-size: 0.85rem;
       letter-spacing: 0.05em;
       text-transform: uppercase;
       transition: color 0.2s;
+      white-space: nowrap;
     }
-    .back-link:hover { color: var(--highlight); }
+    .nav-links a:hover { color: var(--highlight); }
 
     /* HERO */
     .hero {
-      min-height: 65vh;
+      min-height: 70vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -93,15 +101,26 @@
     .hero-sub {
       font-size: 1.05rem;
       color: rgba(255,255,255,0.65);
-      max-width: 55ch;
+      max-width: 58ch;
       line-height: 1.75;
       margin-bottom: 2.5rem;
     }
-    .hero-links {
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .hero-meta {
+      margin-top: 2.2rem;
       display: flex;
-      gap: 1rem;
       flex-wrap: wrap;
+      gap: 0.6rem;
     }
+    .hero-chip {
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 100px;
+      padding: 0.3rem 0.85rem;
+    }
+    .hero-chip strong { color: #fff; font-weight: 600; }
     .btn {
       display: inline-flex;
       align-items: center;
@@ -120,6 +139,25 @@
     .btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.3); }
     .btn-outline:hover { border-color: #fff; transform: translateY(-2px); }
 
+    /* SHARED SECTION HEADINGS */
+    .label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 1rem;
+    }
+    .title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1.2rem;
+    }
+
     /* ABOUT SECTION */
     .about-section-wrap { padding: 6rem 5vw; }
     .about-section {
@@ -130,36 +168,11 @@
       gap: 5rem;
       align-items: center;
     }
-    .about-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--highlight);
-      margin-bottom: 1rem;
-    }
-    .about-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      font-weight: 800;
-      letter-spacing: -1.5px;
-      line-height: 1.1;
-      margin-bottom: 1.2rem;
-      color: var(--ink);
-    }
-    .about-text {
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.85;
-    }
+    .about-text { font-size: 1rem; color: var(--muted); line-height: 1.85; }
     .about-text p + p { margin-top: 1rem; }
 
     /* STATS */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.2rem;
-    }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
     .stat-card {
       background: var(--card);
       border: 1.5px solid var(--border);
@@ -170,92 +183,17 @@
     .stat-card:hover { border-color: var(--highlight); transform: translateY(-2px); }
     .stat-num {
       font-family: 'Syne', sans-serif;
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 800;
       color: var(--ink);
       letter-spacing: -1.5px;
+      line-height: 1.1;
     }
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.3rem;
-    }
-
-    /* LINKS SECTION */
-    .links-section {
-      background: var(--card);
-      padding: 5rem 5vw;
-    }
-    .links-inner {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .links-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--highlight);
-      margin-bottom: 1rem;
-    }
-    .links-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      color: var(--ink);
-      margin-bottom: 2rem;
-    }
-    .platform-links { display: flex; flex-direction: column; gap: 1rem; }
-    .platform-link {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      padding: 1.2rem 1.5rem;
-      background: #fff;
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      text-decoration: none;
-      color: var(--ink);
-      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-    }
-    .platform-link:hover { border-color: var(--ink); transform: translateX(5px); box-shadow: 0 4px 20px var(--shadow); }
-    .platform-icon { font-size: 1.6rem; flex-shrink: 0; }
-    .platform-info { display: flex; flex-direction: column; gap: 0.1rem; }
-    .platform-name {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: var(--ink);
-    }
-    .platform-handle { font-size: 0.82rem; color: var(--muted); }
-    .platform-arrow { margin-left: auto; color: var(--muted); font-size: 1.1rem; }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
 
     /* LATEST EPISODE */
-    .episode-section {
-      padding: 5rem 5vw;
-      background: var(--bg);
-    }
-    .episode-inner {
-      max-width: 750px;
-      margin: 0 auto;
-    }
-    .episode-label {
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--highlight);
-      margin-bottom: 1rem;
-    }
-    .episode-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      color: var(--ink);
-      margin-bottom: 2rem;
-    }
+    .episode-section { padding: 0 5vw 6rem; }
+    .episode-inner { max-width: 900px; margin: 0 auto; }
     .episode-card {
       border: 1.5px solid var(--border);
       border-radius: 20px;
@@ -264,23 +202,10 @@
       transition: box-shadow 0.2s, transform 0.2s;
     }
     .episode-card:hover { box-shadow: 0 12px 40px var(--shadow); transform: translateY(-3px); }
-    .episode-thumb {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--ink);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .episode-thumb iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
+    .episode-thumb { width: 100%; aspect-ratio: 16/9; background: var(--ink); }
+    .episode-thumb iframe { width: 100%; height: 100%; border: none; display: block; }
     .episode-body { padding: 1.8rem; }
-    .episode-badge {
+    .badge {
       display: inline-block;
       background: var(--ink);
       color: #fff;
@@ -290,44 +215,127 @@
       text-transform: uppercase;
       padding: 0.3rem 0.8rem;
       border-radius: 100px;
-      margin-bottom: 0.9rem;
+      margin: 0 0.4rem 0.9rem 0;
     }
+    .badge-light { background: #fff; color: var(--muted); border: 1px solid var(--border); }
     .episode-name {
       font-family: 'Syne', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: var(--ink);
       margin-bottom: 0.6rem;
+      line-height: 1.25;
     }
-    .episode-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.2rem;
-    }
+    .episode-desc { font-size: 0.95rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.2rem; }
+    .episode-ctas { display: flex; gap: 1.5rem; flex-wrap: wrap; }
     .episode-cta {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 600;
       color: var(--highlight);
       text-decoration: none;
       transition: gap 0.2s;
     }
     .episode-cta:hover { gap: 0.8rem; }
+
+    /* ALL EPISODES */
+    .all-episodes { background: var(--card); padding: 6rem 5vw; }
+    .all-inner { max-width: 1100px; margin: 0 auto; }
+    .all-sub { color: var(--muted); max-width: 60ch; margin-bottom: 2.5rem; }
+    .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .ep-card {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .ep-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px var(--shadow); border-color: var(--ink); }
+    .ep-img { position: relative; aspect-ratio: 16/9; background: var(--ink); overflow: hidden; }
+    .ep-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .ep-card:hover .ep-img img { transform: scale(1.04); }
+    .ep-num {
+      position: absolute; top: 0.8rem; left: 0.8rem;
+      background: rgba(13,27,46,0.85);
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+    }
+    .ep-play {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem; color: #fff;
+      background: rgba(13,27,46,0.25);
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .ep-card:hover .ep-play { opacity: 1; }
+    .ep-body { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+    .ep-meta { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.04em; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .ep-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem; line-height: 1.3; color: var(--ink); }
+    .ep-desc { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+    /* LINKS SECTION */
+    .links-section { padding: 6rem 5vw; }
+    .links-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .platform-links { display: flex; flex-direction: column; gap: 1rem; }
+    .platform-link {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: var(--ink);
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .platform-link:hover { border-color: var(--ink); background: #fff; transform: translateX(5px); box-shadow: 0 4px 20px var(--shadow); }
+    .platform-icon { font-size: 1.6rem; flex-shrink: 0; }
+    .platform-info { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+    .platform-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--ink); }
+    .platform-handle { font-size: 0.82rem; color: var(--muted); overflow-wrap: anywhere; }
+    .platform-arrow { margin-left: auto; color: var(--muted); font-size: 1.1rem; }
+    .spotify-embed { border-radius: 12px; border: none; width: 100%; height: 352px; display: block; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1.5px solid var(--border);
+      padding: 2rem 5vw;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 0.82rem;
       color: var(--muted);
     }
+    footer a { color: inherit; }
 
     @media (max-width: 768px) {
-      .about-section-wrap { padding: 3rem 5vw; }
-      .about-section { grid-template-columns: 1fr !important; gap: 2rem; }
-      .stats-grid { grid-template-columns: 1fr 1fr !important; }
-      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      nav { padding: 1rem 16px; }
+      .nav-links { gap: 1rem; }
+      .nav-links .hide-sm { display: none; }
+      .hero { padding: 8rem 16px 4rem; }
+      .about-section-wrap, .all-episodes, .links-section { padding: 4rem 16px; }
+      .episode-section { padding: 0 16px 4rem; }
+      .about-section, .links-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .ep-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem 16px; }
     }
   </style>
 </head>
@@ -335,17 +343,28 @@
 
 <nav>
   <a href="index.html" class="nav-logo">Jordi Facha Álvarez</a>
-  <a href="index.html" class="back-link">← Back to portfolio</a>
+  <ul class="nav-links">
+    <li class="hide-sm"><a href="#latest">Latest</a></li>
+    <li class="hide-sm"><a href="#episodes">Episodes</a></li>
+    <li class="hide-sm"><a href="#listen">Listen</a></li>
+    <li><a href="index.html">← Portfolio</a></li>
+  </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-label">Podcast</p>
+  <p class="hero-label">Podcast · Hosted by Jordi Facha Álvarez</p>
   <h1>Inside<br><em>The Machine.</em></h1>
-  <p class="hero-sub">Exploring how engineering, design, and aerodynamics shape the performance and identity of cars — from road vehicles to race machines — while speaking with people inside the motorsport world.</p>
+  <p class="hero-sub">Exploring how engineering, design, and aerodynamics shape the performance and identity of cars — from road vehicles to race machines — while speaking with the people inside the motorsport world.</p>
   <div class="hero-links">
-    <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" class="btn btn-primary">▶ Watch on YouTube</a>
-    <a href="https://instagram.com/inside_the_machine_podcast" target="_blank" class="btn btn-outline">📸 Follow on Instagram</a>
+    <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" rel="noopener" class="btn btn-primary">▶ Watch on YouTube</a>
+    <a href="https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1" target="_blank" rel="noopener" class="btn btn-outline">🎵 Listen on Spotify</a>
+    <a href="https://instagram.com/inside_the_machine_podcast" target="_blank" rel="noopener" class="btn btn-outline">📸 Instagram</a>
+  </div>
+  <div class="hero-meta">
+    <span class="hero-chip"><strong>New:</strong> Ep. 6 — Monterey Car Week</span>
+    <span class="hero-chip">7 episodes</span>
+    <span class="hero-chip">English &amp; Español</span>
   </div>
 </section>
 
@@ -353,91 +372,191 @@
 <section class="about-section-wrap">
   <div class="about-section">
     <div>
-      <p class="about-label">About the show</p>
-      <h2 class="about-title">Where motorsport meets engineering.</h2>
+      <p class="label">About the show</p>
+      <h2 class="title">Where motorsport meets engineering.</h2>
       <div class="about-text">
-        <p>Inside The Machine is a podcast dedicated to pulling back the curtain on the world of motorsport. Every episode digs into the technical side of racing — the aerodynamics, the engineering decisions, and the design philosophies that separate fast cars from championship-winning ones.</p>
-        <p>Beyond the machines themselves, the show features conversations with real people from inside the industry — engineers, designers, drivers, and analysts — sharing what it actually takes to compete at the highest levels of motorsport.</p>
+        <p>Inside The Machine pulls back the curtain on the world of motorsport and car culture. Every episode digs into the technical side — the aerodynamics, the engineering decisions, and the design philosophies that separate fast cars from championship-winning ones.</p>
+        <p>Beyond the machines themselves, the show features conversations with the people who live it: a three-time Carrera Panamericana winner, professional racing drivers, Ferrari collectors, automotive designers and mechanics-turned-racers — in both English and Spanish.</p>
       </div>
     </div>
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-num">🎙</div>
-        <div class="stat-label">Original episodes</div>
+        <div class="stat-num">7</div>
+        <div class="stat-label">Episodes released</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">🏎</div>
-        <div class="stat-label">Motorsport focused</div>
+        <div class="stat-num">5</div>
+        <div class="stat-label">Guests from inside the industry</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">🌍</div>
-        <div class="stat-label">Global guests</div>
+        <div class="stat-num">2</div>
+        <div class="stat-label">Languages — English &amp; Español</div>
       </div>
       <div class="stat-card">
-        <div class="stat-num">⚙️</div>
-        <div class="stat-label">Engineering deep dives</div>
+        <div class="stat-num">🏁</div>
+        <div class="stat-label">From La Carrera Panamericana to Pebble Beach</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST EPISODE -->
+<section class="episode-section" id="latest">
+  <div class="episode-inner">
+    <p class="label">🎙 New episode</p>
+    <h2 class="title">Check out the latest episode.</h2>
+    <div class="episode-card">
+      <div class="episode-thumb">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/sJJQrwBFWhQ"
+          title="Ep. 6 | Monterey Car Week — It's Not About How Many You Own"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="episode-body">
+        <span class="badge">Episode 6</span><span class="badge badge-light">English · Sept 2026</span>
+        <div class="episode-name">Monterey Car Week — “It's Not About How Many You Own”</div>
+        <p class="episode-desc">A week living inside Monterey Car Week as part of the Collection Suites crew — the RM Sotheby's and Gooding auctions, Pebble Beach, The Quail, Laguna Seca and private brand houses most people never get near. No guest this time: just a breakdown of what actually happened, numbers included, from a $34.6M McLaren F1 GTR to a buried Mercedes wagon that sold for double its estimate.</p>
+        <div class="episode-ctas">
+          <a href="https://www.youtube.com/watch?v=sJJQrwBFWhQ" target="_blank" rel="noopener" class="episode-cta">Watch on YouTube →</a>
+          <a href="https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1" target="_blank" rel="noopener" class="episode-cta">Listen on Spotify →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALL EPISODES -->
+<section class="all-episodes" id="episodes">
+  <div class="all-inner">
+    <p class="label">Every episode</p>
+    <h2 class="title">The full archive.</h2>
+    <p class="all-sub">From the very first episode to the latest — every conversation, newest first.</p>
+    <div class="ep-grid">
+
+      <a href="https://www.youtube.com/watch?v=sJJQrwBFWhQ" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-img"><img src="https://i.ytimg.com/vi/sJJQrwBFWhQ/hqdefault.jpg" alt="Episode 6 thumbnail" loading="lazy" /><span class="ep-num">Ep. 6</span><span class="ep-play">▶</span></div>
+        <div class="ep-body">
+          <div class="ep-meta"><span>Sept 2026</span><span>·</span><span>English</span></div>
+          <div class="ep-title">Monterey Car Week — “It's Not About How Many You Own”</div>
+          <p class="ep-desc">Auctions, The Quail and Pebble Beach from the inside, with a breakdown of what the week's biggest sales really mean.</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=wd8ZWdcWemU" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-img"><img src="https://i.ytimg.com/vi/wd8ZWdcWemU/hqdefault.jpg" alt="Episode 5 thumbnail" loading="lazy" /><span class="ep-num">Ep. 5</span><span class="ep-play">▶</span></div>
+        <div class="ep-body">
+          <div class="ep-meta"><span>Jul 2026</span><span>·</span><span>Español</span></div>
+          <div class="ep-title">Sebastián Arizmendi — El mecánico que se volvió piloto</div>
+          <p class="ep-desc">A mechanic raised inside the Farbén workshop who now races a VW Caribe he built himself — and why understanding the car changes how you drive it.</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=EruQM0XubG4" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-img"><img src="https://i.ytimg.com/vi/EruQM0XubG4/hqdefault.jpg" alt="Episode 4 thumbnail" loading="lazy" /><span class="ep-num">Ep. 4</span><span class="ep-play">▶</span></div>
+        <div class="ep-body">
+          <div class="ep-meta"><span>Jun 2026</span><span>·</span><span>Español</span></div>
+          <div class="ep-title">Yamil Atlante — “Si fuera de otra marca, no sería tan criticado”</div>
+          <p class="ep-desc">Automotive designer Yamil Atlante teaches how to read a car's lines — and why so many brands are losing their design identity.</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=CHfNLpqSXC8" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-img"><img src="https://i.ytimg.com/vi/CHfNLpqSXC8/hqdefault.jpg" alt="Episode 3 thumbnail" loading="lazy" /><span class="ep-num">Ep. 3</span><span class="ep-play">▶</span></div>
+        <div class="ep-body">
+          <div class="ep-meta"><span>Apr 2026</span><span>·</span><span>English</span></div>
+          <div class="ep-title">It's Not About Speed: Inside the Mind of Ferrari Collector Lino Fayen</div>
+          <p class="ep-desc">A Ferrari collector and race winner on what truly makes a car great, the shift from analog to modern, and the reality of collecting.</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=OgotbiAKBLc" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-img"><img src="https://i.ytimg.com/vi/OgotbiAKBLc/hqdefault.jpg" alt="Episode 2 thumbnail" loading="lazy" /><span class="ep-num">Ep. 2</span><span class="ep-play">▶</span></div>
+        <div class="ep-body">
+          <div class="ep-meta"><span>Mar 2026</span><span>·</span><span>English</span></div>
+          <div class="ep-title">Enzo Fittipaldi Explains the Real Differences Between Racing Categories</div>
+          <p class="ep-desc">Racing driver Enzo Fittipaldi on adapting to different cars, categories and driving styles at the professional level.</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=vJ-NoWyI_f8" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-img"><img src="https://i.ytimg.com/vi/vJ-NoWyI_f8/hqdefault.jpg" alt="Episode 1 thumbnail" loading="lazy" /><span class="ep-num">Ep. 1</span><span class="ep-play">▶</span></div>
+        <div class="ep-body">
+          <div class="ep-meta"><span>Feb 2026</span><span>·</span><span>English</span></div>
+          <div class="ep-title">How a Panamericana-Winning Porsche Is Engineered — Diego Cándano</div>
+          <p class="ep-desc">Three-time Carrera Panamericana winner Diego Cándano breaks down the engineering behind a race-winning Porsche.</p>
+        </div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=EeMJqWs0CY0" target="_blank" rel="noopener" class="ep-card">
+        <div class="ep-img"><img src="https://i.ytimg.com/vi/EeMJqWs0CY0/hqdefault.jpg" alt="Episode 0 thumbnail" loading="lazy" /><span class="ep-num">Ep. 0</span><span class="ep-play">▶</span></div>
+        <div class="ep-body">
+          <div class="ep-meta"><span>Jan 2026</span><span>·</span><span>English</span></div>
+          <div class="ep-title">Episode 0: The Start</div>
+          <p class="ep-desc">Where it all began — what Inside The Machine is about and why it exists.</p>
+        </div>
+      </a>
+
     </div>
   </div>
 </section>
 
 <!-- LINKS -->
-<section class="episode-section">
-  <div class="episode-inner">
-    <p class="episode-label">🎙 New episode</p>
-    <h2 class="episode-title">Check out the latest episode.</h2>
-    <div class="episode-card">
-      <div class="episode-thumb">
-        <iframe
-          src="https://youtu.be/CHfNLpqSXC8"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
+<section class="links-section" id="listen">
+  <div class="links-inner">
+    <div>
+      <p class="label">Find us on</p>
+      <h2 class="title">Listen &amp; follow.</h2>
+      <div class="platform-links">
+        <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" rel="noopener" class="platform-link">
+          <span class="platform-icon">▶️</span>
+          <div class="platform-info">
+            <span class="platform-name">YouTube</span>
+            <span class="platform-handle">Full episodes &amp; shorts</span>
+          </div>
+          <span class="platform-arrow">→</span>
+        </a>
+        <a href="https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1" target="_blank" rel="noopener" class="platform-link">
+          <span class="platform-icon">🎵</span>
+          <div class="platform-info">
+            <span class="platform-name">Spotify</span>
+            <span class="platform-handle">Inside The Machine Podcast</span>
+          </div>
+          <span class="platform-arrow">→</span>
+        </a>
+        <a href="https://instagram.com/inside_the_machine_podcast" target="_blank" rel="noopener" class="platform-link">
+          <span class="platform-icon">📸</span>
+          <div class="platform-info">
+            <span class="platform-name">Instagram</span>
+            <span class="platform-handle">@inside_the_machine_podcast</span>
+          </div>
+          <span class="platform-arrow">→</span>
+        </a>
+        <a href="mailto:Insidethemachinepodcast@gmail.com" class="platform-link">
+          <span class="platform-icon">✉️</span>
+          <div class="platform-info">
+            <span class="platform-name">Guest &amp; partnership enquiries</span>
+            <span class="platform-handle">Insidethemachinepodcast@gmail.com</span>
+          </div>
+          <span class="platform-arrow">→</span>
+        </a>
       </div>
-      <div class="episode-body">
-        <span class="episode-badge">Latest Episode</span>
-        <div class="episode-name">Inside The Machine — New Episode Out Now</div>
-        <p class="episode-desc">Tune in to the latest conversation on Inside The Machine, where we dive deep into the engineering, aerodynamics, and stories behind motorsport's most fascinating machines — with guests from inside the industry.</p>
-        <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" class="episode-cta">Watch on YouTube →</a>
-      </div>
+    </div>
+    <div>
+      <p class="label">Listen here</p>
+      <h2 class="title">Press play.</h2>
+      <iframe class="spotify-embed" src="https://open.spotify.com/embed/show/0h9qnzTYmNVhmcotTQsve1?utm_source=generator" title="Inside The Machine on Spotify" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </div>
 </section>
 
-<section class="links-section">
-  <div class="links-inner">
-    <p class="links-label">Find us on</p>
-    <h2 class="links-title">Listen & follow.</h2>
-    <div class="platform-links">
-      <a href="https://www.youtube.com/@InsideTheMachinePodcast-v6d" target="_blank" class="platform-link">
-        <span class="platform-icon">▶️</span>
-        <div class="platform-info">
-          <span class="platform-name">YouTube</span>
-          <span class="platform-handle">@InsideTheMachinePodcast</span>
-        </div>
-        <span class="platform-arrow">→</span>
-      </a>
-      <a href="https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1?si=9143jzpbRFCdhy098NtsAw" target="_blank" class="platform-link">
-        <span class="platform-icon">🎵</span>
-        <div class="platform-info">
-          <span class="platform-name">Spotify</span>
-          <span class="platform-handle">Inside The Machine Podcast</span>
-        </div>
-        <span class="platform-arrow">→</span>
-      </a>
-      <a href="https://instagram.com/inside_the_machine_podcast" target="_blank" class="platform-link">
-        <span class="platform-icon">📸</span>
-        <div class="platform-info">
-          <span class="platform-name">Instagram</span>
-          <span class="platform-handle">@inside_the_machine_podcast</span>
-        </div>
-        <span class="platform-arrow">→</span>
-      </a>
-      <a href="#" onclick="window.location='mai'+'lto:'+'Insidethemachinepodcast'+'@'+'gmail.com'; return false;" class="platform-link">
-        <span class="platform-icon">✉️</span>
-        <div class="platform-info">
-          <span class="platform-name">Email us</span>
-          <span class="platform-handle">Insidethemachinepodcast@gmail.com</span>
-        </div>
-        <span class="platform-arrow">→</span>
-      </a>
+<footer>
+  <span>© 2026 Jordi Facha Álvarez — Inside The Machine</span>
+  <a href="index.html">← Back to portfolio</a>
+</footer>
+
+</body>
+</html>
