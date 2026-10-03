@@ -485,7 +485,7 @@ function DetourCard({ d }) {
       <p className="mt-2 text-sm text-white/60 leading-relaxed">{d.desc}</p>
       {d.photoDesc && (
         <div className="mt-4">
-          <PhotoSlot title={d.school} desc={d.photoDesc} aspect="aspect-[16/9]" compact />
+          <PhotoSlot title={d.school} desc={d.photoDesc} src={d.photo} position={d.photoPos} caption={d.photoCaption} aspect="aspect-[16/9]" compact />
         </div>
       )}
     </div>

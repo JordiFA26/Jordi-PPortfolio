@@ -127,7 +127,7 @@ const en = {
         link: 'Read the research paper',
         photoDesc: 'IB graduation at the American School of Madrid.',
         photos: [
-          { title: 'First years at ASM', desc: 'Your first years at the American School of Madrid.', available: false, src: '/photos/madrid-early-years.jpg', pos: '50% 60%', caption: 'First years at ASM' },
+          { title: 'First years at ASM', desc: 'Your first years at the American School of Madrid.', src: '/photos/madrid-early-years.jpg', pos: '50% 62%', caption: 'First years at ASM' },
           { title: 'IB graduation', src: '/photos/ib-graduation.jpg', pos: '40% 30%', caption: 'IB graduation · ASM' },
         ],
         steps: [
@@ -145,6 +145,9 @@ const en = {
           school: 'Leysin American School',
           desc: 'Boarding school in the Swiss Alps — living independently, surrounded by students from all over the world — before coming back to Madrid.',
           photoDesc: 'You in Leysin — the campus, the mountains or classmates.',
+          photo: '/photos/leysin.jpg',
+          photoPos: '45% 35%',
+          photoCaption: 'Leysin American School',
         },
       },
       {
@@ -430,7 +433,7 @@ const es = {
         link: 'Lee el trabajo de investigación',
         photoDesc: 'Graduación del IB en el American School of Madrid.',
         photos: [
-          { title: 'Primeros años en el ASM', desc: 'Tus primeros años en el American School of Madrid.', available: false, src: '/photos/madrid-early-years.jpg', pos: '50% 60%', caption: 'Primeros años en el ASM' },
+          { title: 'Primeros años en el ASM', desc: 'Tus primeros años en el American School of Madrid.', src: '/photos/madrid-early-years.jpg', pos: '50% 62%', caption: 'Primeros años en el ASM' },
           { title: 'Graduación del IB', src: '/photos/ib-graduation.jpg', pos: '40% 30%', caption: 'Graduación del IB · ASM' },
         ],
         steps: [
@@ -448,6 +451,9 @@ const es = {
           school: 'Leysin American School',
           desc: 'Internado en los Alpes suizos: viviendo de forma independiente, rodeado de estudiantes de todo el mundo, antes de volver a Madrid.',
           photoDesc: 'Tú en Leysin: el campus, las montañas o con compañeros.',
+          photo: '/photos/leysin.jpg',
+          photoPos: '45% 35%',
+          photoCaption: 'Leysin American School',
         },
       },
       {
