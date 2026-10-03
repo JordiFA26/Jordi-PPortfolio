@@ -3,6 +3,7 @@ import { useLang } from '../i18n.jsx'
 import { LINKS } from '../data.js'
 import { Eyebrow, PageHero, usePageTitle, useReveal } from '../components.jsx'
 import { RESEARCH_VISUALS } from '../ResearchVisuals.jsx'
+import { AeroWing } from '../AeroWing.jsx'
 
 const container = 'max-w-7xl mx-auto px-6 sm:px-10 lg:px-16'
 
@@ -28,7 +29,11 @@ export default function Research() {
 
   return (
     <>
-      <PageHero eyebrow={r.eyebrow} line1={r.line1} line2={r.line2} sub={r.sub} />
+      <PageHero eyebrow={r.eyebrow} line1={r.line1} line2={r.line2} sub={r.sub}>
+        <div className="hero-meta mt-10 max-w-2xl">
+          <AeroWing className="h-56 sm:h-64" />
+        </div>
+      </PageHero>
 
       <section className="py-24 sm:py-32">
         <div className={container}>
