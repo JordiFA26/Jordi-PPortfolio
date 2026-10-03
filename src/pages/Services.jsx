@@ -32,7 +32,17 @@ export default function Services() {
           <div className="mt-14 grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
             {s.photos.map((p) => (
               <div key={p.title} className="reveal-item">
-                <PhotoSlot title={p.title} desc={p.desc} />
+                {p.src ? (
+                  <figure className="overflow-hidden rounded-3xl border border-divider bg-surface">
+                    <img src={p.src} alt={p.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+                    <figcaption className="px-5 py-4">
+                      <p className="font-display font-semibold text-white">{p.title}</p>
+                      <p className="mt-1 text-sm text-white/55">{p.desc}</p>
+                    </figcaption>
+                  </figure>
+                ) : (
+                  <PhotoSlot title={p.title} desc={p.desc} />
+                )}
               </div>
             ))}
           </div>

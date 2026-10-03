@@ -294,7 +294,7 @@ const en = {
     back: 'Back to portfolio',
     photos: [
       { title: 'Global Citizens Club', desc: 'You leading a club meeting or event — speaking, or with the team around you. Horizontal 4:3.' },
-      { title: 'Charity work', desc: 'You volunteering at one of the charities or foundations — hands-on, candid, faces visible. Horizontal 4:3.' },
+      { title: 'Charity work', desc: 'Volunteering with the Banco de Alimentos (food bank).', src: '/photos/charity-food-bank.jpg', alt: 'Jordi volunteering with a group at the Banco de Alimentos food bank' },
     ],
   },
 }
@@ -593,7 +593,7 @@ const es = {
     back: 'Volver al portfolio',
     photos: [
       { title: 'Global Citizens Club', desc: 'Tú liderando una reunión o un evento del club, hablando o con el equipo a tu alrededor. Horizontal 4:3.' },
-      { title: 'Voluntariado', desc: 'Tú colaborando en una de las organizaciones o fundaciones: en acción, natural y con caras visibles. Horizontal 4:3.' },
+      { title: 'Voluntariado', desc: 'Como voluntario en el Banco de Alimentos.', src: '/photos/charity-food-bank.jpg', alt: 'Jordi como voluntario con un grupo en el Banco de Alimentos' },
     ],
   },
 }
