@@ -38,12 +38,20 @@ function Wheel({ x }) {
   )
 }
 
-export function AeroWing({ className = 'h-44' }) {
+// `anim` overrides the labels; `plot` turns it into the IB Extended Essay
+// version: the wing grows run by run and a downforce-vs-length chart plots.
+const PLOT_SCALES = [0.7, 0.9, 1.1, 1.3]
+const PLOT_METER = [0.32, 0.55, 0.76, 0.94] // illustrative trend, not measured data
+
+export function AeroWing({ className = 'h-44', anim, plot = false }) {
   const { t } = useLang()
-  const states = t.features.aero.states
+  const states = anim?.states ?? t.features.aero.states
+  const header = anim?.header ?? t.features.aero.header
+  const tag = anim?.tag ?? '911 GT3 RS'
   const [idx, setIdx] = useState(0)
   const [downforce, setDownforce] = useState(412)
-  const wingScale = [0.78, 1, 1.18, 1]
+  const wingScale = plot ? PLOT_SCALES : [0.78, 1, 1.18, 1]
+  const runs = idx + 1
 
   useEffect(() => {
     if (prefersReducedMotion()) return
@@ -72,8 +80,8 @@ export function AeroWing({ className = 'h-44' }) {
 
       {/* Header strip */}
       <div className="absolute top-3 left-4 right-4 flex items-center justify-between z-10">
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">{t.features.aero.header}</span>
-        <span className="font-mono text-[10px] text-primary-light tabular-nums">DF {downforce} kg</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">{header}</span>
+        <span className="font-mono text-[10px] text-primary-light tabular-nums">{plot ? `RUN ${runs}/4` : `DF ${downforce} kg`}</span>
       </div>
 
       <svg viewBox="-40 460 1600 500" className="absolute inset-x-2 top-9 bottom-7 w-[calc(100%-1rem)] h-[calc(100%-4rem)]" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
@@ -137,6 +145,27 @@ export function AeroWing({ className = 'h-44' }) {
           <Wheel key={x} x={x} />
         ))}
 
+        {plot && (
+          <g transform="translate(-20 474) scale(4.2)">
+            <rect width="78" height="40" rx="5" style={{ ...fillVar('surface'), ...strokeVar('divider') }} strokeWidth=".4" opacity=".92" />
+            <line x1="8" y1="33" x2="72" y2="33" style={strokeVar('muted')} strokeWidth=".5" />
+            <line x1="8" y1="33" x2="8" y2="6" style={strokeVar('muted')} strokeWidth=".5" />
+            <polyline
+              points={PLOT_METER.slice(0, runs).map((m, i) => `${16 + i * 16},${33 - m * 24}`).join(' ')}
+              fill="none"
+              style={strokeVar('primary')}
+              strokeWidth="1.2"
+            />
+            {PLOT_METER.slice(0, runs).map((m, i) => (
+              <circle key={i} cx={16 + i * 16} cy={33 - m * 24} r="2" style={fillVar(i === runs - 1 ? 'accent' : 'primary')} />
+            ))}
+            <text x="11" y="9" fontSize="4.2" fontFamily="JetBrains Mono, monospace" style={fillVar('muted')}>DF</text>
+            <text x="72" y="38.5" fontSize="3.6" fontFamily="JetBrains Mono, monospace" textAnchor="end" style={fillVar('muted')}>
+              {(anim?.axis ?? 'wing length').toUpperCase()}
+            </text>
+          </g>
+        )}
+
         {/* Ground */}
         <line x1="-40" y1="947" x2="1580" y2="947" style={strokeVar('divider')} strokeWidth="5" />
       </svg>
@@ -156,7 +185,7 @@ export function AeroWing({ className = 'h-44' }) {
         <span key={idx} className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/70" style={{ animation: 'air-fadein 0.4s ease both' }}>
           {states[idx]}
         </span>
-        <span className="ml-auto font-mono text-[10px] text-white/40">911 GT3 RS</span>
+        <span className="ml-auto font-mono text-[10px] text-white/40">{tag}</span>
       </div>
     </div>
   )
