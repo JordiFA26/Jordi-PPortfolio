@@ -8,6 +8,7 @@ import {
   FileText,
   GraduationCap,
   HandHeart,
+  Gauge,
   Linkedin,
   Mail,
   Instagram,
@@ -703,6 +704,7 @@ function Journey() {
 const PROJECT_META = {
   podcast: { Icon: Mic, to: '/podcast' },
   paper: { Icon: Wind, to: '/research' },
+  fs: { Icon: Gauge, to: '/research' },
   services: { Icon: HandHeart, to: '/services' },
   sport: { Icon: Flag },
 }
@@ -745,7 +747,7 @@ function Projects() {
                 </div>
               </>
             )
-            const cls = `svc-tile group relative bg-deep p-8 sm:p-10 transition-colors duration-300 hover:bg-surface block ${p.key === 'podcast' || p.key === 'sport' ? 'sm:col-span-2' : ''}`
+            const cls = `svc-tile group relative bg-deep p-8 sm:p-10 transition-colors duration-300 hover:bg-surface block ${p.key === 'podcast' ? 'sm:col-span-2' : ''}`
             if (href)
               return (
                 <a key={p.key} href={href} target="_blank" rel="noopener" className={cls}>
