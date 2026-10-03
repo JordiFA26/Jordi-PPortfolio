@@ -199,7 +199,7 @@ export function Navbar() {
 
   const projects = [
     { to: '/podcast', Icon: Mic, label: t.nav.menuPodcast, desc: t.nav.menuPodcastDesc },
-    { to: '/investment-club', Icon: TrendingUp, label: t.nav.menuClub, desc: t.nav.menuClubDesc },
+    { to: '/investing', Icon: TrendingUp, label: t.nav.menuClub, desc: t.nav.menuClubDesc },
     { href: LINKS.researchPaper, Icon: Wind, label: t.nav.menuPaper, desc: t.nav.menuPaperDesc },
     { to: '/services', Icon: HandHeart, label: t.nav.menuCommunity, desc: t.nav.menuCommunityDesc },
   ]
@@ -686,7 +686,7 @@ export function Footer() {
               <li><Link to="/#about" className={item}>{t.nav.about}</Link></li>
               <li><Link to="/#journey" className={item}>{t.nav.journey}</Link></li>
               <li><Link to="/#projects" className={item}>{t.nav.projects}</Link></li>
-              <li><Link to="/investment-club" className={item}>{t.footer.club}</Link></li>
+              <li><Link to="/investing" className={item}>{t.footer.club}</Link></li>
               <li><Link to="/#contact" className={item}>{t.nav.contact}</Link></li>
             </ul>
           </div>

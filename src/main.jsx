@@ -39,7 +39,8 @@ createRoot(document.getElementById('root')).render(
             <Route element={<Layout />}>
               <Route path="/" element={<App />} />
               <Route path="/podcast" element={<Podcast />} />
-              <Route path="/investment-club" element={<InvestmentClub />} />
+              <Route path="/investing" element={<InvestmentClub />} />
+              <Route path="/investment-club" element={<Navigate to="/investing" replace />} />
               <Route path="/services" element={<Services />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>

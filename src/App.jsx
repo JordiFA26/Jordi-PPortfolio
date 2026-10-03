@@ -750,7 +750,7 @@ function Journey() {
 const PROJECT_META = {
   podcast: { Icon: Mic, to: '/podcast' },
   paper: { Icon: Wind, href: LINKS.researchPaper },
-  club: { Icon: TrendingUp, to: '/investment-club' },
+  club: { Icon: TrendingUp, to: '/investing' },
   services: { Icon: HandHeart, to: '/services' },
   sport: { Icon: Flag },
 }

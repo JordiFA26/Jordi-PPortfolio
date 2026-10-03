@@ -6,7 +6,8 @@
     { "source": "/index.html", "destination": "/", "permanent": true },
     { "source": "/portfolio.html", "destination": "/", "permanent": true },
     { "source": "/podcast.html", "destination": "/podcast", "permanent": true },
-    { "source": "/investment-club.html", "destination": "/investment-club", "permanent": true },
+    { "source": "/investment-club.html", "destination": "/investing", "permanent": true },
+    { "source": "/investment-club", "destination": "/investing", "permanent": true },
     { "source": "/services.html", "destination": "/services", "permanent": true }
   ],
   "rewrites": [{ "source": "/((?!assets/|.*\\.).*)", "destination": "/index.html" }]
