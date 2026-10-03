@@ -145,92 +145,126 @@ export function WindTunnel({ anim, className = 'h-64' }) {
 }
 
 /* ----------------------------------------------------------------
-   Formula Student paper — CFD-style side view of a single-seater with
-   pressure zones on the wings and a meshing → solving cycle
+   Formula Student paper — underfloor & diffuser: side view focused on
+   the floor. Flow speeds up through the floor/ground gap (ground
+   effect), a low-pressure zone builds under the floor, and the diffuser
+   expands the flow at the rear. Car body stays faded so the floor leads.
 ---------------------------------------------------------------- */
-const CFD_FLOW = [
-  'M-10,26 C80,26 200,24 330,20',
-  'M-10,46 C40,46 80,44 120,40 C160,36 200,36 240,34 C262,30 284,20 330,14',
-  'M-10,70 C20,70 40,66 70,62 C110,56 150,58 190,62 C230,66 252,58 270,52 C292,46 310,44 330,44',
-  'M-10,104 C10,102 24,96 44,96 C80,96 120,100 200,102 C250,104 290,104 330,104',
+const FLOOR = 'M96,116 C110,118 150,119 196,119 C230,119 262,110 292,98'
+const OVER_FLOW = [
+  'M-10,36 C100,36 200,34 330,30',
+  'M-10,66 C40,66 80,62 120,58 C160,52 200,52 240,56 C280,60 300,60 330,60',
+]
+const UNDER_FLOW = [
+  'M-10,121 C40,121 80,121 100,121 C150,122 190,123 210,123 C246,122 276,112 330,94',
+  'M-10,125 C60,125 150,126 200,126 C246,126 288,120 330,110',
 ]
 
 export function FsCfd({ anim, className = 'h-64' }) {
   const idx = useCycle(anim.states.length)
   const meshing = idx === 0
-  const showPressure = idx >= 2
+  const flowing = idx >= 1
+  const lowP = idx >= 2
+  const diffuser = idx === 3
 
   return (
-    <Frame header={anim.header} right={`ITER ${[120, 860, 2400, 3000][idx]}`} status={anim.states[idx]} tag={anim.tag} className={className}>
+    <Frame header={anim.header} right={`ITER ${[120, 900, 2400, 3000][idx]}`} status={anim.states[idx]} tag={anim.tag} className={className}>
       <svg viewBox="0 0 320 150" className="absolute inset-x-2 top-8 bottom-8 w-[calc(100%-1rem)] h-[calc(100%-4rem)]" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
-          <radialGradient id="cfd-high">
-            <stop offset="0" stopColor="rgb(var(--c-accent))" stopOpacity=".75" />
-            <stop offset="1" stopColor="rgb(var(--c-accent))" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="cfd-low">
-            <stop offset="0" stopColor="rgb(var(--c-primary))" stopOpacity=".8" />
-            <stop offset="1" stopColor="rgb(var(--c-primary))" stopOpacity="0" />
-          </radialGradient>
-          <pattern id="cfd-mesh" width="8" height="8" patternUnits="userSpaceOnUse">
-            <path d="M8,0 L0,0 0,8 M0,8 L8,0" fill="none" style={strokeVar('primary-light')} strokeOpacity=".25" strokeWidth=".5" />
+          <linearGradient id="floor-p" x1="96" x2="292" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stopColor="rgb(var(--c-primary))" stopOpacity=".15" />
+            <stop offset="0.5" stopColor="rgb(var(--c-primary))" stopOpacity=".9" />
+            <stop offset="1" stopColor="rgb(var(--c-primary))" stopOpacity=".25" />
+          </linearGradient>
+          <pattern id="floor-mesh" width="6" height="6" patternUnits="userSpaceOnUse">
+            <path d="M6,0 L0,0 0,6 M0,6 L6,0" fill="none" style={strokeVar('primary-light')} strokeOpacity=".35" strokeWidth=".5" />
           </pattern>
+          <clipPath id="under-floor">
+            <path d={`${FLOOR} L300,128 L90,128 Z`} />
+          </clipPath>
         </defs>
 
-        {/* mesh overlay while meshing */}
-        <rect x="0" y="14" width="320" height="112" fill="url(#cfd-mesh)" style={{ opacity: meshing ? 1 : 0, transition: 'opacity 0.6s ease' }} />
+        {/* moving road */}
+        <line x1="-10" y1="128.5" x2="330" y2="128.5" style={strokeVar('divider')} strokeWidth="1.5" />
+        <line x1="-10" y1="131" x2="330" y2="131" style={strokeVar('fg')} strokeOpacity=".25" strokeWidth="1" strokeDasharray="6 10"
+          className="motion-safe:[animation:rv-dash_1s_linear_infinite]" />
 
-        {/* pressure zones */}
-        <g style={{ opacity: showPressure ? 1 : 0, transition: 'opacity 0.6s ease' }}>
-          <ellipse cx="34" cy="108" rx="34" ry="12" fill="url(#cfd-high)" style={{ animation: 'rv-pulse 2s ease-in-out infinite' }} />
-          <ellipse cx="282" cy="36" rx="36" ry="12" fill="url(#cfd-high)" style={{ animation: 'rv-pulse 2s ease-in-out infinite' }} />
-          <ellipse cx="282" cy="56" rx="34" ry="10" fill="url(#cfd-low)" style={{ animation: 'rv-pulse 2s ease-in-out .5s infinite' }} />
-          <ellipse cx="150" cy="122" rx="90" ry="8" fill="url(#cfd-low)" style={{ animation: 'rv-pulse 2s ease-in-out .8s infinite' }} />
-        </g>
+        {/* mesh under the floor while meshing */}
+        <rect x="88" y="90" width="214" height="40" fill="url(#floor-mesh)" clipPath="url(#under-floor)" style={{ opacity: meshing ? 1 : 0, transition: 'opacity 0.6s ease' }} />
 
-        {/* streamlines */}
-        {CFD_FLOW.map((d, i) => (
-          <path key={i} id={`cf-${i}`} d={d} fill="none" style={strokeVar('flow')} strokeOpacity={idx === 0 ? 0.25 : 0.7} strokeWidth="1.2" strokeDasharray="14 10"
-            className="motion-safe:[animation:rv-dash_2s_linear_infinite]" />
+        {/* low-pressure field between floor and ground */}
+        <path
+          d={`${FLOOR} L292,128 L96,128 Z`}
+          fill="url(#floor-p)"
+          style={{ opacity: lowP ? 1 : 0, transition: 'opacity 0.7s ease', animation: lowP ? 'rv-pulse 2s ease-in-out infinite' : 'none' }}
+        />
+
+        {/* flow over the car (slow, faded) */}
+        {OVER_FLOW.map((d, i) => (
+          <path key={i} d={d} fill="none" style={strokeVar('flow')} strokeOpacity=".3" strokeWidth="1" strokeDasharray="14 12"
+            className="motion-safe:[animation:rv-dash_2.6s_linear_infinite]" />
         ))}
-        {idx > 0 &&
-          CFD_FLOW.map((_, i) => (
-            <circle key={`p${i}`} r="1.8" style={fillVar(i === 2 ? 'accent' : 'flow')}>
-              <animateMotion dur={`${2 + i * 0.3}s`} begin={`${i * 0.25}s`} repeatCount="indefinite">
-                <mpath href={`#cf-${i}`} />
-              </animateMotion>
-            </circle>
-          ))}
 
-        {/* single-seater, nose left */}
-        <g style={{ ...strokeVar('fg') }} strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round">
-          {/* front wing */}
-          <path d="M6,112 L58,112 L58,116 L8,118 Z" style={fillVar('surface')} />
-          <path d="M14,106 L52,106 L52,109 L16,110 Z" style={fillVar('surface')} />
-          <line x1="20" y1="104" x2="20" y2="118" />
-          {/* nose + monocoque + engine cover */}
-          <path
-            d="M30,104 C40,100 70,94 104,90 L128,88 C134,80 144,74 156,72 L170,72 L172,80 C196,82 222,86 246,92 L252,104 L118,108 C90,108 60,108 30,104 Z"
-            style={fillVar('surface')}
-          />
-          {/* roll hoop + halo-ish line + driver helmet */}
-          <path d="M162,72 L166,56 L176,56 L178,80" fill="none" />
-          <circle cx="150" cy="78" r="6" style={fillVar('primary')} stroke="none" />
-          {/* sidepod */}
-          <path d="M120,96 L200,92 L214,104 L124,106 Z" style={fillVar('surface2')} />
-          {/* rear wing: endplate + two elements */}
-          <path d="M266,40 L300,38 L298,92 L270,94 Z" fill="none" strokeOpacity=".45" strokeDasharray="3 3" />
-          <path d="M258,46 C272,42 292,42 304,44 L304,49 C290,48 272,49 258,52 Z" style={fillVar('primary')} />
-          <path d="M276,34 C286,32 298,32 306,34 L306,38 C296,37 286,37 276,39 Z" style={fillVar('primary')} opacity=".75" />
-          <path d="M244,92 C252,80 262,64 272,52" fill="none" />
-          <path d="M250,96 C262,86 274,70 284,52" fill="none" strokeOpacity=".6" />
-          {/* wheels */}
-          <circle cx="76" cy="108" r="17" style={fillVar('surface2')} />
-          <circle cx="76" cy="108" r="7" fill="none" strokeOpacity=".6" />
-          <circle cx="232" cy="106" r="19" style={fillVar('surface2')} />
-          <circle cx="232" cy="106" r="8" fill="none" strokeOpacity=".6" />
+        {/* accelerated flow under the floor */}
+        {UNDER_FLOW.map((d, i) => (
+          <path key={i} id={`uf-${i}`} d={d} fill="none" style={strokeVar(i === 0 ? 'flow' : 'primary')} strokeOpacity={flowing ? 0.9 : 0.2} strokeWidth="1.4" strokeDasharray="10 6"
+            className="motion-safe:[animation:rv-dash_0.7s_linear_infinite]" />
+        ))}
+        {flowing &&
+          UNDER_FLOW.map((_, i) =>
+            [0, 1].map((k) => (
+              <circle key={`${i}-${k}`} r="1.8" style={fillVar(k === 0 && i === 0 ? 'accent' : 'flow')}>
+                <animateMotion dur={`${1.1 + i * 0.2}s`} begin={`${k * 0.55}s`} repeatCount="indefinite">
+                  <mpath href={`#uf-${i}`} />
+                </animateMotion>
+              </circle>
+            )),
+          )}
+
+        {/* faded single-seater body */}
+        <g style={strokeVar('fg')} strokeOpacity=".4" strokeWidth="1.4" strokeLinejoin="round" fill="none">
+          <path d="M8,118 L56,118 L56,121 L10,122 Z" />
+          <path d="M30,110 C40,106 70,100 104,96 L128,94 C134,86 144,80 156,78 L170,78 L172,86 C196,88 222,92 246,98 L252,108" />
+          <path d="M162,78 L166,62 L176,62 L178,86" />
+          <path d="M266,46 L300,44 L298,96" strokeDasharray="3 3" />
+          <path d="M258,52 C272,48 292,48 304,50 L304,55 C290,54 272,55 258,58 Z" />
+          <path d="M244,98 C252,86 262,70 272,58" />
+          <circle cx="70" cy="112" r="16" style={fillVar('surface2')} fillOpacity=".7" />
+          <circle cx="236" cy="110" r="18" style={fillVar('surface2')} fillOpacity=".7" />
         </g>
-        <line x1="-10" y1="126" x2="330" y2="126" style={strokeVar('divider')} strokeWidth="1" />
+
+        {/* the floor + diffuser (highlighted) */}
+        <path d={FLOOR} fill="none" style={strokeVar('primary')} strokeWidth="2.6" strokeLinecap="round" />
+        {[232, 252, 272].map((x, i) => (
+          <line key={x} x1={x} y1={[116, 110.5, 104][i]} x2={x} y2={[123, 120, 117][i]} style={strokeVar('primary')} strokeWidth="1.4" strokeOpacity=".8" />
+        ))}
+
+        {/* diffuser expansion arrows */}
+        <g style={{ opacity: diffuser ? 1 : 0, transition: 'opacity 0.5s ease' }}>
+          {[0, 1, 2].map((i) => (
+            <path key={i} d={`M${280 + i * 9},${118 - i * 2} l10,-8 m-5,0 l5,0 l0,5`} fill="none" style={strokeVar('accent')} strokeWidth="1.6" strokeLinecap="round"
+              className="motion-safe:[animation:rv-pulse_1.2s_ease-in-out_infinite]" />
+          ))}
+        </g>
+
+        {/* mini chart: pressure along the floor (dips at the throat, recovers in the diffuser) */}
+        <g transform="translate(14 20)">
+          <rect width="78" height="40" rx="5" style={{ ...fillVar('surface'), ...strokeVar('divider') }} strokeWidth="1" opacity=".92" />
+          <line x1="8" y1="12" x2="72" y2="12" style={strokeVar('muted')} strokeWidth=".6" strokeDasharray="2 2" />
+          <line x1="8" y1="6" x2="8" y2="34" style={strokeVar('muted')} strokeWidth=".8" />
+          <path
+            d="M8,12 C18,13 24,32 38,33 C50,34 60,22 72,15"
+            fill="none"
+            style={{ ...strokeVar('primary'), strokeDashoffset: lowP ? 0 : 1, transition: 'stroke-dashoffset 1.2s ease' }}
+            strokeWidth="1.6"
+            pathLength="1"
+            strokeDasharray="1"
+          />
+          <text x="11" y="9" fontSize="5" fontFamily="JetBrains Mono, monospace" style={fillVar('muted')}>Cp</text>
+          <text x="40" y="38.5" fontSize="4.2" fontFamily="JetBrains Mono, monospace" style={fillVar('muted')} textAnchor="middle">
+            {anim.cp.toUpperCase()}
+          </text>
+        </g>
       </svg>
     </Frame>
   )
