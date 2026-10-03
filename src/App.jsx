@@ -261,30 +261,33 @@ function EpisodeShuffler() {
    GT3 RS side profile (re-skin of the skill's falling-drop component:
    source = car body, particles = air parcels, ripples = wake vortices)
 ---------------------------------------------------------------- */
+// Coordinates follow the GT3 RS line drawing (public/gt3rs-lines.png),
+// placed at x 0–1500, y 480–960. Wheel centres sit inside its arches.
 const STREAMLINES = [
-  'M-10,16 C100,16 200,14 330,10',
-  'M-10,30 C70,30 130,30 170,28 C210,27 236,24 252,23 C278,20 300,15 330,10',
-  'M-10,50 C60,50 110,44 150,36 C180,31 214,34 240,44 C254,48 268,46 284,44 C302,40 316,36 330,34',
-  'M-10,72 C20,72 40,70 60,68 C90,66 110,62 130,52 C150,40 175,35 200,38 C230,44 262,56 296,64 C308,66 318,66 330,66',
-  'M-10,114 C60,114 200,114 330,112',
+  'M-40,492 C400,492 900,486 1580,470',
+  'M-40,600 C200,600 400,580 600,555 C750,530 900,515 1050,525 C1200,535 1300,525 1360,500 C1420,482 1500,470 1580,465',
+  'M-40,705 C150,705 300,652 500,622 C650,590 800,550 950,542 C1100,536 1240,572 1330,598 C1420,602 1480,582 1580,560',
+  'M-40,812 C60,790 150,708 300,676 C420,652 520,646 640,640',
 ]
+const WHEELS = [305, 1150]
 
-const car = (name) => ({ fill: `rgb(var(--c-${name}))` })
-const carStroke = (name) => ({ stroke: `rgb(var(--c-${name}))` })
+const fillVar = (name) => ({ fill: `rgb(var(--c-${name}))` })
+const strokeVar = (name) => ({ stroke: `rgb(var(--c-${name}))` })
 
 function Wheel({ x }) {
+  const cy = 842
   return (
-    <g>
-      <circle cx={x} cy="101" r="17.5" style={car('tyre')} />
-      <circle cx={x} cy="101" r="12" style={{ ...car('car-glass'), ...carStroke('car-edge') }} strokeWidth="1.2" />
-      <g style={carStroke('car-edge')} strokeWidth="1.6">
-        <line x1={x} y1="90" x2={x} y2="112" />
-        <line x1={x - 11} y1="101" x2={x + 11} y2="101" />
-        <line x1={x - 8} y1="93" x2={x + 8} y2="109" />
-        <line x1={x + 8} y1="93" x2={x - 8} y2="109" />
+    <g fill="none" strokeLinecap="round">
+      <circle cx={x} cy={cy} r="103" style={{ ...fillVar('surface2'), ...strokeVar('fg') }} strokeWidth="9" />
+      <circle cx={x} cy={cy} r="66" style={strokeVar('fg')} strokeWidth="6" opacity=".7" />
+      <g style={strokeVar('fg')} strokeWidth="6" opacity=".55">
+        {[0, 36, 72, 108, 144].map((deg) => {
+          const r = (deg * Math.PI) / 180
+          return <line key={deg} x1={x - Math.cos(r) * 62} y1={cy - Math.sin(r) * 62} x2={x + Math.cos(r) * 62} y2={cy + Math.sin(r) * 62} />
+        })}
       </g>
-      <circle cx={x} cy="101" r="3" style={car('primary')} />
-      <path d={`M${x - 9.5},95 A11,11 0 0 1 ${x - 4},90.5`} style={carStroke('accent')} strokeWidth="2.5" fill="none" />
+      <circle cx={x} cy={cy} r="14" style={fillVar('primary')} />
+      <path d={`M${x - 58},${cy - 40} A70,70 0 0 1 ${x - 20},${cy - 67}`} style={strokeVar('accent')} strokeWidth="14" />
     </g>
   )
 }
@@ -308,7 +311,7 @@ function AeroWing() {
   return (
     <div className="relative h-44 w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-primary/15 via-surface2 to-surface2">
       <style>{`
-        @keyframes air-dash { to { stroke-dashoffset: -120; } }
+        @keyframes air-dash { to { stroke-dashoffset: -520; } }
         @keyframes air-ripple {
           0%   { transform: scale(0.4); opacity: 0.9; }
           80%  { transform: scale(3.2); opacity: 0; }
@@ -327,7 +330,7 @@ function AeroWing() {
         <span className="font-mono text-[10px] text-primary-light tabular-nums">DF {downforce} kg</span>
       </div>
 
-      <svg viewBox="0 0 320 140" className="absolute inset-x-0 bottom-5 w-full h-[124px]" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <svg viewBox="-40 460 1600 500" className="absolute inset-x-2 bottom-7 w-[calc(100%-1rem)] h-[118px]" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
           <linearGradient id="flow" x1="0" x2="1">
             <stop offset="0" stopColor="rgb(var(--c-flow))" stopOpacity="0" />
@@ -344,8 +347,8 @@ function AeroWing() {
             d={d}
             fill="none"
             stroke="url(#flow)"
-            strokeWidth="1.2"
-            strokeDasharray="18 12"
+            strokeWidth="5"
+            strokeDasharray="80 50"
             style={{ animation: `air-dash ${2.4 + i * 0.3}s linear infinite` }}
           />
         ))}
@@ -353,7 +356,7 @@ function AeroWing() {
         {/* Air parcels travelling along the streamlines */}
         {STREAMLINES.map((_, i) =>
           [0, 1].map((k) => (
-            <circle key={`${i}-${k}`} r={k ? 1.5 : 2.1} style={car(i === 2 && k === 0 ? 'accent' : 'flow')}>
+            <circle key={`${i}-${k}`} r={k ? 7 : 10} style={fillVar(i === 2 && k === 0 ? 'accent' : 'flow')}>
               <animateMotion dur={`${2.2 + i * 0.35}s`} begin={`${k * 1.1 + i * 0.3}s`} repeatCount="indefinite">
                 <mpath href={`#sl-${i}`} />
               </animateMotion>
@@ -361,48 +364,35 @@ function AeroWing() {
           )),
         )}
 
-        {/* Porsche 911 GT3 RS — side profile, nose left */}
-        <path
-          style={{ ...car('car-body'), ...carStroke('car-edge') }}
-          strokeWidth="1"
-          strokeLinejoin="round"
-          d="M7,110 L12,107 L11,100 C10,95 12,92 16,90 C26,86 38,82 50,80 C62,78 74,78 86,79 C96,79 104,78 110,77 C122,64 134,50 152,44 C164,40 180,40 192,42 C226,48 262,62 296,72 C302,74 306,76 307,80 L308,96 C308,103 305,107 300,108 L251.8,108 A20,20 0 1 0 212.2,108 L91.8,108 A20,20 0 1 0 52.2,108 L16,108 Z"
-        />
-        {/* greenhouse + B-pillar */}
-        <path style={car('car-glass')} d="M121,72 C131,61 142,50 156,46 L186,45 C204,47 220,53 232,61 L226,65 L123,72 Z" />
-        <line x1="188" y1="45" x2="186" y2="68" style={carStroke('car-body')} strokeWidth="3.5" />
-        {/* shoulder line, door cuts, front-wheel vents */}
-        <path d="M200,73 C230,67 262,70 292,77" style={carStroke('car-edge')} strokeWidth=".8" fill="none" />
-        <path d="M117,77 L114,106 M191,71 L193,106" style={carStroke('car-edge')} strokeWidth=".7" fill="none" />
-        <g style={carStroke('car-glass')} strokeWidth="1.8" strokeLinecap="round">
-          <line x1="96" y1="84" x2="99" y2="91" />
-          <line x1="100" y1="83" x2="103" y2="90" />
-          <line x1="104" y1="82" x2="107" y2="89" />
-        </g>
-        {/* headlight, tail light, front splitter */}
-        <ellipse cx="38" cy="83.5" rx="7" ry="2.6" transform="rotate(-10 38 83.5)" style={car('flow')} opacity=".85" />
-        <path d="M304,81 L307.5,82 L307.8,88 L304.5,87 Z" style={car('accent')} />
-        <path d="M8,110 L40,110" style={carStroke('car-edge')} strokeWidth="1.5" />
+        {/* Porsche 911 GT3 RS line drawing, tinted with the theme colour via a mask */}
+        <mask id="gt3rs-mask" maskUnits="userSpaceOnUse" x="0" y="480" width="1500" height="480">
+          <image href="/gt3rs-lines.png" x="0" y="480" width="1500" height="480" preserveAspectRatio="none" />
+        </mask>
+        <rect x="0" y="480" width="1500" height="480" style={fillVar('fg')} mask="url(#gt3rs-mask)" opacity=".92" />
 
-        {/* Swan-neck rear wing — chord changes with each test state */}
-        <path d="M261,62 C260,50 263,40 270,34" style={carStroke('car-edge')} strokeWidth="3" fill="none" strokeLinecap="round" />
+        {/* Rear wing plane — redrawn so its chord can change with each test state */}
         <g
           style={{
             transformBox: 'view-box',
-            transformOrigin: '270px 34px',
+            transformOrigin: '1342px 540px',
             transform: `scaleX(${wingScale[idx % wingScale.length]})`,
             transition: 'transform 0.7s cubic-bezier(0.34,1.56,0.64,1)',
           }}
         >
-          <path style={car('primary')} d="M244,36 C258,31 284,30 302,33 L302,37 C286,37 262,38 244,39.5 Z" />
-          <path style={car('primary')} opacity=".7" d="M287,27.5 C293,26.5 299,26.5 304,27.5 L304,30 C298,30 292,30 287,31 Z" />
+          <path
+            d="M1338,523 L1356,517 C1400,511 1450,507 1486,506 C1493,506 1495,510 1493,517 L1424,562 L1340,571 Z"
+            style={{ fill: 'rgb(var(--c-primary) / 0.28)', ...strokeVar('primary') }}
+            strokeWidth="9"
+            strokeLinejoin="round"
+          />
         </g>
 
-        <Wheel x={72} />
-        <Wheel x={232} />
+        {WHEELS.map((x) => (
+          <Wheel key={x} x={x} />
+        ))}
 
         {/* Ground */}
-        <line x1="0" y1="119" x2="320" y2="119" style={carStroke('divider')} strokeWidth="1" />
+        <line x1="-40" y1="947" x2="1580" y2="947" style={strokeVar('divider')} strokeWidth="5" />
       </svg>
 
       {/* Wake vortices (ripples) behind the wing */}
