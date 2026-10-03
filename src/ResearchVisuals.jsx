@@ -116,7 +116,7 @@ export function FsCfd({ anim, className = 'h-64' }) {
         />
 
         {/* the team's car — traced line drawing tinted with the theme colour */}
-        <rect x="0" y="0" width="895" height="354" style={fillVar('fg')} mask="url(#fs-car-mask)" opacity=".8" />
+        <rect x="0" y="0" width="895" height="354" style={fillVar('fg')} mask="url(#fs-car-mask)" />
 
         {/* floor (solid) + diffuser ramp (dashed where it sits behind the rear wheel) */}
         <path d={FS_FLOOR} fill="none" style={strokeVar('primary')} strokeWidth="6" strokeLinecap="round" />
