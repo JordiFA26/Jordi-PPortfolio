@@ -6,7 +6,6 @@ import {
   CountUp,
   Eyebrow,
   PageHero,
-  PhotoSlot,
   PlatformLink,
   SectionTitle,
   usePageTitle,
@@ -120,7 +119,27 @@ export default function Podcast() {
             </div>
           </div>
           <div className="lg:col-span-6 reveal-item">
-            <PhotoSlot title={p.photoTitle} desc={p.photoDesc} aspect="aspect-[16/11]" />
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-primary/20 via-transparent to-accent/10 blur-2xl" />
+              <div className="relative grid grid-cols-2 gap-3 sm:gap-4">
+                {EPISODES.slice(0, 4).map((ep, i) => (
+                  <a
+                    key={ep.id}
+                    href={ytWatch(ep.id)}
+                    target="_blank"
+                    rel="noopener"
+                    className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 aspect-video shadow-xl shadow-shade/20 transition-transform duration-500 hover:-translate-y-1 ${
+                      i % 2 ? 'translate-y-6' : ''
+                    }`}
+                  >
+                    <img src={ytThumb(ep.id)} alt={ep.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <span className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <span className="absolute bottom-2 left-2 rounded-full bg-black/70 px-2.5 py-0.5 font-display text-[11px] font-bold text-snow">Ep. {ep.num}</span>
+                  </a>
+                ))}
+              </div>
+              <p className="relative mt-10 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-white/40">{p.mosaicLabel}</p>
+            </div>
           </div>
         </div>
       </section>

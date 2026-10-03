@@ -710,9 +710,11 @@ function Journey() {
                           <ArrowUpRight className="h-4 w-4" />
                         </a>
                       )}
-                      <div className="lg:hidden mt-5">
-                        <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" compact />
-                      </div>
+                      {s.photoDesc && (
+                        <div className="lg:hidden mt-5">
+                          <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" compact />
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -722,7 +724,9 @@ function Journey() {
                       <span className="text-7xl xl:text-8xl">{s.span}</span>
                       <span className="ml-2 text-2xl align-top text-white/30">{s.unit}</span>
                     </p>
-                    <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" className="w-full max-w-sm" compact />
+                    {s.photoDesc && (
+                      <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" className="w-full max-w-sm" compact />
+                    )}
                   </div>
                 </div>
               )
