@@ -13,10 +13,10 @@ import {
   Instagram,
   Mic,
   Send,
-  TrendingUp,
   Wind,
   Flag,
   MapPin,
+  CornerDownRight,
 } from 'lucide-react'
 import { useLang, useL } from './i18n.jsx'
 import { EPISODES, LATEST, LINKS, ytThumb, ytWatch } from './data.js'
@@ -607,6 +607,31 @@ function Pillars() {
   )
 }
 
+function DetourCard({ d }) {
+  return (
+    <div className="rounded-3xl border border-dashed border-accent/40 bg-surface/80 p-5 sm:p-6">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 border border-accent/30 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
+          <CornerDownRight className="h-3 w-3" />
+          {d.label}
+        </span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/50">{d.span}</span>
+      </div>
+      <p className="mt-3 inline-flex items-center gap-1.5 font-mono text-[10px] sm:text-xs uppercase tracking-[0.16em] text-primary">
+        <MapPin className="h-3.5 w-3.5" />
+        {d.place}
+      </p>
+      <h4 className="mt-2 font-display text-lg font-bold tracking-tight text-white">{d.school}</h4>
+      <p className="mt-2 text-sm text-white/60 leading-relaxed">{d.desc}</p>
+      {d.photoDesc && (
+        <div className="mt-4">
+          <PhotoSlot title={d.school} desc={d.photoDesc} aspect="aspect-[16/9]" compact />
+        </div>
+      )}
+    </div>
+  )
+}
+
 /* ----------------------------------------------------------------
    Journey — timeline of places and schools, line fills on scroll
 ---------------------------------------------------------------- */
@@ -633,7 +658,7 @@ function Journey() {
   }, [])
 
   // Route strip: unique consecutive places (flag + city)
-  const route = j.stops.map((s) => ({ flag: s.flag, city: s.chip }))
+  const route = j.stops.map((s) => ({ flag: s.flag, city: s.chip, detour: s.detour }))
 
   return (
     <section id="journey" ref={ref} className="relative overflow-hidden py-24 sm:py-32 lg:py-40">
@@ -652,6 +677,13 @@ function Journey() {
               <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm ${i === route.length - 1 ? 'border-primary/40 bg-primary/10 text-white' : 'border-white/10 bg-white/[0.03] text-white/75'}`}>
                 <span className="text-base leading-none">{r.flag}</span>
                 {r.city}
+                {r.detour && (
+                  <span className="ml-1 inline-flex items-center gap-1 rounded-full border border-dashed border-accent/50 px-2 py-0.5 text-xs text-white/70">
+                    <CornerDownRight className="h-3 w-3 text-accent" />
+                    <span className="leading-none">{r.detour.flag}</span>
+                    {r.detour.chip} · {r.detour.span}
+                  </span>
+                )}
               </span>
               {i < route.length - 1 && <ArrowRight className="h-3.5 w-3.5 text-white/30" />}
             </span>
@@ -711,11 +743,26 @@ function Journey() {
                         </a>
                       )}
                       {s.photoDesc && (
-                        <div className="lg:hidden mt-5">
+                        <div className={`mt-5 ${s.detour ? '' : 'lg:hidden'}`}>
                           <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" compact />
                         </div>
                       )}
                     </div>
+
+                    {/* Detour (mobile): branches off the left timeline and rejoins it */}
+                    {s.detour && (
+                      <div className="lg:hidden relative mt-4">
+                        <svg className="absolute top-0 bottom-0 -left-9 h-full w-9" viewBox="0 0 36 100" preserveAspectRatio="none" aria-hidden="true">
+                          <path d="M0,0 C0,22 32,14 32,36 L32,64 C32,86 0,78 0,100" fill="none" style={strokeVar('accent')} strokeWidth="2" strokeDasharray="5 5" vectorEffect="non-scaling-stroke" />
+                        </svg>
+                        <span className="absolute top-1/2 -left-[18px] -translate-y-1/2 z-10 flex h-7 w-7 items-center justify-center rounded-full border-2 border-accent/60 bg-surface text-sm">
+                          {s.detour.flag}
+                        </span>
+                        <div className="ml-4">
+                          <DetourCard d={s.detour} />
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Aside: big duration + photo (desktop) */}
@@ -724,8 +771,32 @@ function Journey() {
                       <span className="text-7xl xl:text-8xl">{s.span}</span>
                       <span className="ml-2 text-2xl align-top text-white/30">{s.unit}</span>
                     </p>
-                    {s.photoDesc && (
+                    {s.photoDesc && !s.detour && (
                       <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" className="w-full max-w-sm" compact />
+                    )}
+
+                    {/* Detour (desktop): a bump off the centre line out to this side and back */}
+                    {s.detour && (
+                      <div className={`relative w-full max-w-md ${left ? 'self-start' : 'self-end'}`}>
+                        <svg
+                          className={`absolute top-0 bottom-0 h-full w-12 ${left ? '-left-12 -scale-x-100' : '-right-12'}`}
+                          viewBox="0 0 48 100"
+                          preserveAspectRatio="none"
+                          aria-hidden="true"
+                        >
+                          <path d="M48,0 C48,22 4,14 4,36 L4,64 C4,86 48,78 48,100" fill="none" style={strokeVar('accent')} strokeWidth="2" strokeDasharray="6 6" vectorEffect="non-scaling-stroke" />
+                        </svg>
+                        <span
+                          className={`absolute top-1/2 -translate-y-1/2 z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-accent/60 bg-surface text-base ${
+                            left ? '-left-5' : '-right-5'
+                          }`}
+                        >
+                          {s.detour.flag}
+                        </span>
+                        <div className={`text-left ${left ? 'ml-8' : 'mr-8'}`}>
+                          <DetourCard d={s.detour} />
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -744,7 +815,6 @@ function Journey() {
 const PROJECT_META = {
   podcast: { Icon: Mic, to: '/podcast' },
   paper: { Icon: Wind, href: LINKS.researchPaper },
-  club: { Icon: TrendingUp, to: '/investing' },
   services: { Icon: HandHeart, to: '/services' },
   sport: { Icon: Flag },
 }
@@ -787,7 +857,7 @@ function Projects() {
                 </div>
               </>
             )
-            const cls = `svc-tile group relative bg-deep p-8 sm:p-10 transition-colors duration-300 hover:bg-surface block ${p.key === 'podcast' ? 'sm:col-span-2' : ''}`
+            const cls = `svc-tile group relative bg-deep p-8 sm:p-10 transition-colors duration-300 hover:bg-surface block ${p.key === 'podcast' || p.key === 'sport' ? 'sm:col-span-2' : ''}`
             if (href)
               return (
                 <a key={p.key} href={href} target="_blank" rel="noopener" className={cls}>

@@ -3,12 +3,46 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "redirects": [
-    { "source": "/index.html", "destination": "/", "permanent": true },
-    { "source": "/portfolio.html", "destination": "/", "permanent": true },
-    { "source": "/podcast.html", "destination": "/podcast", "permanent": true },
-    { "source": "/investment-club.html", "destination": "/investing", "permanent": true },
-    { "source": "/investment-club", "destination": "/investing", "permanent": true },
-    { "source": "/services.html", "destination": "/services", "permanent": true }
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/podcast.html",
+      "destination": "/podcast",
+      "permanent": true
+    },
+    {
+      "source": "/services.html",
+      "destination": "/services",
+      "permanent": true
+    },
+    {
+      "source": "/investment-club.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/investment-club",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/investing",
+      "destination": "/",
+      "permanent": false
+    }
   ],
-  "rewrites": [{ "source": "/((?!assets/|.*\\.).*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/((?!assets/|.*\\.).*)",
+      "destination": "/index.html"
+    }
+  ]
 }

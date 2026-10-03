@@ -4,7 +4,6 @@ import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import App from './App.jsx'
 import Podcast from './pages/Podcast.jsx'
-import InvestmentClub from './pages/InvestmentClub.jsx'
 import Services from './pages/Services.jsx'
 import { LangProvider, ThemeProvider } from './i18n.jsx'
 import { Footer, Navbar, ScrollManager } from './components.jsx'
@@ -39,8 +38,6 @@ createRoot(document.getElementById('root')).render(
             <Route element={<Layout />}>
               <Route path="/" element={<App />} />
               <Route path="/podcast" element={<Podcast />} />
-              <Route path="/investing" element={<InvestmentClub />} />
-              <Route path="/investment-club" element={<Navigate to="/investing" replace />} />
               <Route path="/services" element={<Services />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>

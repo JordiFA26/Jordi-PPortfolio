@@ -102,25 +102,3 @@ export const LATEST = EPISODES[0]
 
 export const ytThumb = (id) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`
 export const ytWatch = (id) => `https://www.youtube.com/watch?v=${id}`
-
-export const ALLOCATION = [
-  { key: 'growth', value: 45.98, color: '#4C8DFF' },
-  { key: 'value', value: 27.3, color: '#8DB8FF' },
-  { key: 'etf', value: 14.76, color: '#2F6FE0' },
-  { key: 'tech', value: 11.95, color: '#FF5A1F' },
-]
-
-export const NOTABLE_HOLDINGS = [
-  { name: 'Planet Labs', pct: 11.2 },
-  { name: 'Repsol', pct: 8.4 },
-  { name: 'AST SpaceMobile', pct: 6.47 },
-  { name: 'S&P 500 ETF', pct: 4.21 },
-  { name: 'LVMH', pct: 4.17 },
-]
-
-export const ALL_HOLDINGS = [
-  'Planet Labs', 'Repsol', 'FTSE All World High Dividend', 'Kraken Robotics', 'Bayer',
-  'Nebius Group', 'AST SpaceMobile', 'EMCOR Group', 'Banco Santander', 'Rivian',
-  'S&P 500 ETF', 'LVMH', 'The Metals Company', 'FTSE All-World ETF', 'Berkshire Hathaway',
-  'Amazon', 'Apple', 'Microsoft', 'Google', 'NVIDIA', 'Tesla',
-]
