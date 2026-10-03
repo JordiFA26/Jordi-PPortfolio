@@ -70,7 +70,7 @@ const en = {
       tag: 'Podcast',
       title: 'Inside The Machine',
       desc: 'Long-form conversations with drivers, collectors, designers and engineers — in English and Spanish.',
-      bullets: ['7 episodes and counting', 'Guests incl. Enzo Fittipaldi', 'YouTube · Spotify · TikTok'],
+      bullets: ['{n} episodes and counting', 'Guests incl. Enzo Fittipaldi', 'YouTube · Spotify · TikTok'],
     },
     aero: {
       tag: 'Aerodynamics',
@@ -95,7 +95,7 @@ const en = {
   pillars: {
     eyebrow: 'By the numbers',
     items: [
-      { label: 'Podcast episodes', end: 7, suffix: '', desc: 'From Episode 0 in January to Monterey Car Week — with guests from Mexico, the US and beyond.' },
+      { label: 'Podcast episodes', end: 'episodes', suffix: '', desc: 'From Episode 0 in January to the latest release — with guests from Mexico, the US and beyond.' },
       { label: 'Languages', end: 5, suffix: '', desc: 'Grown up between Spanish and Mexican cultures, having lived in three countries early in life.' },
       { label: 'Years of community work', end: 10, suffix: '+', desc: 'Clubs, charities and foundations — including serving as President of the Global Citizens Club.' },
     ],
@@ -207,8 +207,8 @@ const en = {
     sub: 'Exploring how engineering, design and aerodynamics shape the performance and identity of cars — from road vehicles to race machines — while speaking with the people inside the motorsport world.',
     watch: 'Watch on YouTube',
     listen: 'Listen on Spotify',
-    chips: ['7 episodes', 'English & Español'],
-    newChip: 'New: Ep. 6 — Monterey Car Week',
+    chips: ['{n} episodes', 'English & Español'],
+    newChip: 'New: Ep. {num} — {title}',
     aboutEyebrow: 'About the show',
     aboutTitle: 'Where motorsport',
     aboutTitleItalic: 'meets engineering.',
@@ -217,7 +217,7 @@ const en = {
       'Beyond the machines, the show features the people who live it: a three-time Carrera Panamericana winner, professional racing drivers, Ferrari collectors, automotive designers and mechanics-turned-racers.',
     ],
     stats: [
-      { end: 7, suffix: '', label: 'Episodes released' },
+      { end: 'episodes', suffix: '', label: 'Episodes released' },
       { end: 5, suffix: '', label: 'Guests from inside the industry' },
       { end: 2, suffix: '', label: 'Languages — English & Español' },
     ],
@@ -369,7 +369,7 @@ const es = {
       tag: 'Podcast',
       title: 'Inside The Machine',
       desc: 'Conversaciones en profundidad con pilotos, coleccionistas, diseñadores e ingenieros, en inglés y en español.',
-      bullets: ['7 episodios y contando', 'Invitados como Enzo Fittipaldi', 'YouTube · Spotify · TikTok'],
+      bullets: ['{n} episodios y contando', 'Invitados como Enzo Fittipaldi', 'YouTube · Spotify · TikTok'],
     },
     aero: {
       tag: 'Aerodinámica',
@@ -394,7 +394,7 @@ const es = {
   pillars: {
     eyebrow: 'En cifras',
     items: [
-      { label: 'Episodios del podcast', end: 7, suffix: '', desc: 'Del Episodio 0 en enero a la Monterey Car Week, con invitados de México, EE. UU. y más allá.' },
+      { label: 'Episodios del podcast', end: 'episodes', suffix: '', desc: 'Del Episodio 0 en enero al último lanzamiento, con invitados de México, EE. UU. y más allá.' },
       { label: 'Idiomas', end: 5, suffix: '', desc: 'Criado entre las culturas española y mexicana, tras vivir en tres países desde pequeño.' },
       { label: 'Años de trabajo comunitario', end: 10, suffix: '+', desc: 'Clubes, organizaciones benéficas y fundaciones, incluida la presidencia del Global Citizens Club.' },
     ],
@@ -506,8 +506,8 @@ const es = {
     sub: 'Exploramos cómo la ingeniería, el diseño y la aerodinámica definen el rendimiento y la identidad de los coches, de los de calle a los de competición, hablando con las personas que viven el mundo del motor.',
     watch: 'Ver en YouTube',
     listen: 'Escuchar en Spotify',
-    chips: ['7 episodios', 'English & Español'],
-    newChip: 'Nuevo: Ep. 6 — Monterey Car Week',
+    chips: ['{n} episodios', 'English & Español'],
+    newChip: 'Nuevo: Ep. {num} — {title}',
     aboutEyebrow: 'Sobre el programa',
     aboutTitle: 'Donde el motor',
     aboutTitleItalic: 'se encuentra con la ingeniería.',
@@ -516,7 +516,7 @@ const es = {
       'Más allá de las máquinas, el programa da voz a quienes lo viven: un tres veces ganador de La Carrera Panamericana, pilotos profesionales, coleccionistas de Ferrari, diseñadores de automóviles y mecánicos convertidos en pilotos.',
     ],
     stats: [
-      { end: 7, suffix: '', label: 'Episodios publicados' },
+      { end: 'episodes', suffix: '', label: 'Episodios publicados' },
       { end: 5, suffix: '', label: 'Invitados de dentro de la industria' },
       { end: 2, suffix: '', label: 'Idiomas: inglés y español' },
     ],

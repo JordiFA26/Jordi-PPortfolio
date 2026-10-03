@@ -7,6 +7,7 @@ import Podcast from './pages/Podcast.jsx'
 import Services from './pages/Services.jsx'
 import Research from './pages/Research.jsx'
 import { LangProvider, ThemeProvider } from './i18n.jsx'
+import { EpisodesProvider } from './episodes.jsx'
 import { Footer, Navbar, ScrollManager } from './components.jsx'
 import './index.css'
 
@@ -34,6 +35,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
       <LangProvider>
+        <EpisodesProvider>
         <BrowserRouter>
           <Routes>
             <Route element={<Layout />}>
@@ -45,6 +47,7 @@ createRoot(document.getElementById('root')).render(
             </Route>
           </Routes>
         </BrowserRouter>
+        </EpisodesProvider>
       </LangProvider>
     </ThemeProvider>
   </StrictMode>,

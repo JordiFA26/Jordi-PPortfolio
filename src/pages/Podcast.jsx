@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { ChevronDown, Mic, Music2, Play, Youtube } from 'lucide-react'
 import { useLang, useL } from '../i18n.jsx'
-import { EPISODES, LATEST, LINKS, ytThumb, ytWatch } from '../data.js'
+import { LINKS, ytThumb, ytWatch } from '../data.js'
+import { shortTitle, useEpisodes } from '../episodes.jsx'
 import {
   CountUp,
   Eyebrow,
@@ -37,7 +38,7 @@ function EpisodeCard({ ep }) {
                 </div>
                 <div className="flex flex-1 flex-col p-6">
                   <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
-                    {l(ep.date)} · {ep.lang} · {l(ep.guest)}
+                    {[l(ep.date), ep.lang, l(ep.guest)].filter(Boolean).join(' · ')}
                   </p>
                   <h3 className="mt-3 font-display text-lg font-bold leading-snug text-white">{ep.title}</h3>
                   <p className="mt-3 text-sm text-white/55 leading-relaxed line-clamp-3">{l(ep.desc)}</p>
@@ -51,6 +52,7 @@ export default function Podcast() {
   const l = useL()
   const p = t.podcastPage
   usePageTitle(t.meta.podcastTitle)
+  const { episodes: EPISODES, latest: LATEST } = useEpisodes()
   const [showAll, setShowAll] = useState(false)
 
   const aboutRef = useReveal()
@@ -84,9 +86,9 @@ export default function Podcast() {
         <div className="hero-meta mt-8 flex flex-wrap gap-2">
           <span className="inline-flex items-center gap-2 rounded-full bg-accent/15 border border-accent/30 px-3 py-1.5 text-xs text-white">
             <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
-            {p.newChip}
+            {p.newChip.replace('{num}', LATEST.num).replace('{title}', shortTitle(LATEST))}
           </span>
-          {p.chips.map((c) => (
+          {p.chips.map((c) => c.replace('{n}', EPISODES.length)).map((c) => (
             <span key={c} className="rounded-full border border-white/10 px-3 py-1.5 text-xs text-white/65">
               {c}
             </span>
@@ -111,7 +113,7 @@ export default function Podcast() {
               {p.stats.map((s) => (
                 <div key={s.label} className="reveal-item rounded-3xl border border-divider bg-surface p-5">
                   <p className="font-display text-4xl sm:text-5xl font-extrabold tracking-tighter text-white">
-                    <CountUp end={s.end} suffix={s.suffix} />
+                    <CountUp end={s.end === 'episodes' ? EPISODES.length : s.end} suffix={s.suffix} />
                   </p>
                   <p className="mt-2 text-xs sm:text-sm text-white/50 leading-snug">{s.label}</p>
                 </div>

@@ -480,6 +480,12 @@ export function CountUp({ end, suffix = '', duration = 2000 }) {
     return () => obs.disconnect()
   }, [end, duration])
 
+  // If the target changes after counting finished (e.g. a new episode
+  // arrives from the feed), jump to the new value.
+  useEffect(() => {
+    if (started.current || prefersReducedMotion()) setValue(end)
+  }, [end])
+
   return (
     <span ref={ref} className="tabular-nums">
       {value}

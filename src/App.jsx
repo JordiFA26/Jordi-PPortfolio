@@ -21,7 +21,8 @@ import {
   CornerDownLeft,
 } from 'lucide-react'
 import { useLang, useL } from './i18n.jsx'
-import { EPISODES, LATEST, LINKS, ytThumb, ytWatch } from './data.js'
+import { LINKS, ytThumb, ytWatch } from './data.js'
+import { shortTitle, useEpisodes } from './episodes.jsx'
 import {
   AirflowField,
   CountUp,
@@ -41,6 +42,7 @@ const container = 'max-w-7xl mx-auto px-6 sm:px-10 lg:px-16'
 ---------------------------------------------------------------- */
 function Hero() {
   const { t } = useLang()
+  const { latest: LATEST } = useEpisodes()
   const heroRef = useRef(null)
 
   useEffect(() => {
@@ -121,7 +123,7 @@ function Hero() {
                 {t.hero.live}
               </span>
               <span className="text-sm text-white/75 group-hover:text-white transition-colors">
-                Ep. {LATEST.num} — Monterey Car Week
+                Ep. {LATEST.num} — {shortTitle(LATEST)}
               </span>
               <ArrowUpRight className="h-4 w-4 text-white/50 group-hover:text-primary transition-colors" />
             </a>
@@ -214,7 +216,9 @@ function About() {
 ---------------------------------------------------------------- */
 function EpisodeShuffler() {
   const l = useL()
-  const [stack, setStack] = useState(EPISODES.slice(0, 3))
+  const { episodes } = useEpisodes()
+  const [stack, setStack] = useState(episodes.slice(0, 3))
+  useEffect(() => setStack(episodes.slice(0, 3)), [episodes])
 
   useEffect(() => {
     if (prefersReducedMotion()) return
@@ -357,6 +361,7 @@ function StudyScheduler() {
 ---------------------------------------------------------------- */
 function Features() {
   const { t } = useLang()
+  const { episodes } = useEpisodes()
   const f = t.features
   const ref = useReveal('.feature-card', { stagger: 0.15 })
 
@@ -389,7 +394,7 @@ function Features() {
                 </div>
                 <p className="mt-6 text-sm sm:text-base text-white/60 leading-relaxed">{desc}</p>
                 <ul className="mt-5 space-y-2">
-                  {bullets.map((b) => (
+                  {bullets.map((b) => b.replace('{n}', episodes.length)).map((b) => (
                     <li key={b} className="flex items-center gap-2.5 text-sm text-white/75">
                       <span className="h-1 w-1 rounded-full bg-primary" />
                       {b}
@@ -421,6 +426,7 @@ function Features() {
 ---------------------------------------------------------------- */
 function Pillars() {
   const { t } = useLang()
+  const { episodes } = useEpisodes()
   const ref = useReveal()
   return (
     <section ref={ref} className="relative overflow-hidden py-24 sm:py-32 bg-deep border-y border-divider">
@@ -433,7 +439,7 @@ function Pillars() {
             <div key={p.label} className="reveal-item lg:px-12 text-center lg:text-left">
               <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.18em] text-white/50">{p.label}</p>
               <p className="mt-4 font-display text-7xl sm:text-8xl font-extrabold tracking-tighter text-white">
-                <CountUp end={p.end} suffix={p.suffix} />
+                <CountUp end={p.end === 'episodes' ? episodes.length : p.end} suffix={p.suffix} />
               </p>
               <div className="relative mt-5 h-px w-full overflow-hidden bg-white/5">
                 <span
