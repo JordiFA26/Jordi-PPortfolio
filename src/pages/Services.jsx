@@ -34,7 +34,7 @@ export default function Services() {
               <div key={p.title} className="reveal-item">
                 {p.src ? (
                   <figure className="overflow-hidden rounded-3xl border border-divider bg-surface">
-                    <img src={p.src} alt={p.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" />
+                    <img src={p.src} alt={p.alt} loading="lazy" className="aspect-[4/3] w-full object-cover" style={{ objectPosition: p.pos || 'center' }} />
                     <figcaption className="px-5 py-4">
                       <p className="font-display font-semibold text-white">{p.title}</p>
                       <p className="mt-1 text-sm text-white/55">{p.desc}</p>

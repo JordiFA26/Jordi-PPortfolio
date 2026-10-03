@@ -426,8 +426,21 @@ export function SectionTitle({ title, italic, className = '' }) {
 /* ----------------------------------------------------------------
    Photo placeholder — describes the shot Jordi should add later
 ---------------------------------------------------------------- */
-export function PhotoSlot({ title, desc, className = '', aspect = 'aspect-[4/3]', compact = false }) {
+export function PhotoSlot({ title, desc, className = '', aspect = 'aspect-[4/3]', compact = false, src, alt, position = 'center', caption }) {
   const { t } = useLang()
+  if (src) {
+    return (
+      <figure className={`relative overflow-hidden rounded-3xl border border-white/10 bg-surface2 ${aspect} ${className}`}>
+        <img src={src} alt={alt || title} loading="lazy" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: position }} />
+        {caption && (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <figcaption className={`absolute bottom-0 left-0 right-0 text-snow ${compact ? 'p-3 text-xs' : 'p-4 text-sm'}`}>{caption}</figcaption>
+          </>
+        )}
+      </figure>
+    )
+  }
   return (
     <div
       className={`relative overflow-hidden rounded-3xl border border-dashed border-primary/30 photo-slot-bg ${aspect} ${className}`}

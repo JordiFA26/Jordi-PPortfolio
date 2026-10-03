@@ -125,7 +125,11 @@ const en = {
         school: 'American School of Madrid',
         desc: 'A new city that became home. Ten years at the American School of Madrid — with a one-year break in Switzerland along the way — finishing with the IB Diploma in Higher Level Physics, Chemistry and Business Management, including my aerodynamics research paper.',
         link: 'Read the research paper',
-        photoDesc: 'You in Madrid or at ASM — or your IB graduation.',
+        photoDesc: 'IB graduation at the American School of Madrid.',
+        photos: [
+          { title: 'First years at ASM', desc: 'Your first years at the American School of Madrid.', available: false, src: '/photos/madrid-early-years.jpg', pos: '50% 60%', caption: 'First years at ASM' },
+          { title: 'IB graduation', src: '/photos/ib-graduation.jpg', pos: '40% 30%', caption: 'IB graduation · ASM' },
+        ],
         steps: [
           { label: 'ASM', sub: '6 years' },
           { label: 'Leysin', sub: '1 year', away: true },
@@ -293,7 +297,7 @@ const en = {
     soonDesc: 'Check back soon to learn more about the charitable work, initiatives and community projects I’ve been part of.',
     back: 'Back to portfolio',
     photos: [
-      { title: 'Global Citizens Club', desc: 'You leading a club meeting or event — speaking, or with the team around you. Horizontal 4:3.' },
+      { title: 'Global Citizens Club', desc: 'Running a Global Citizens Club stand at school.', src: '/photos/global-citizens.jpg', pos: '70% 40%', alt: 'Jordi at a Global Citizens Club stand at school' },
       { title: 'Charity work', desc: 'Volunteering with the Banco de Alimentos (food bank).', src: '/photos/charity-food-bank.jpg', alt: 'Jordi volunteering with a group at the Banco de Alimentos food bank' },
     ],
   },
@@ -424,7 +428,11 @@ const es = {
         school: 'American School of Madrid',
         desc: 'Una ciudad nueva que se convirtió en mi hogar. Diez años en el American School of Madrid, con un año de pausa en Suiza por el camino, terminando con el Bachillerato Internacional con Física, Química y Gestión Empresarial de Nivel Superior, incluido mi trabajo de investigación en aerodinámica.',
         link: 'Lee el trabajo de investigación',
-        photoDesc: 'Tú en Madrid o en el ASM, o tu graduación del IB.',
+        photoDesc: 'Graduación del IB en el American School of Madrid.',
+        photos: [
+          { title: 'Primeros años en el ASM', desc: 'Tus primeros años en el American School of Madrid.', available: false, src: '/photos/madrid-early-years.jpg', pos: '50% 60%', caption: 'Primeros años en el ASM' },
+          { title: 'Graduación del IB', src: '/photos/ib-graduation.jpg', pos: '40% 30%', caption: 'Graduación del IB · ASM' },
+        ],
         steps: [
           { label: 'ASM', sub: '6 años' },
           { label: 'Leysin', sub: '1 año', away: true },
@@ -592,7 +600,7 @@ const es = {
     soonDesc: 'Vuelve pronto para conocer el trabajo benéfico, las iniciativas y los proyectos comunitarios en los que he participado.',
     back: 'Volver al portfolio',
     photos: [
-      { title: 'Global Citizens Club', desc: 'Tú liderando una reunión o un evento del club, hablando o con el equipo a tu alrededor. Horizontal 4:3.' },
+      { title: 'Global Citizens Club', desc: 'Con un puesto del Global Citizens Club en el colegio.', src: '/photos/global-citizens.jpg', pos: '70% 40%', alt: 'Jordi en un puesto del Global Citizens Club en el colegio' },
       { title: 'Voluntariado', desc: 'Como voluntario en el Banco de Alimentos.', src: '/photos/charity-food-bank.jpg', alt: 'Jordi como voluntario con un grupo en el Banco de Alimentos' },
     ],
   },

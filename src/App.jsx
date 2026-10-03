@@ -132,7 +132,7 @@ function Hero() {
           <div className="hero-photo hidden lg:block lg:col-span-5">
             <div className="relative">
               <div className="absolute -inset-4 rounded-[2.5rem] bg-gradient-to-br from-primary/20 to-transparent blur-2xl" />
-              <PhotoSlot title={t.hero.photoTitle} desc={t.hero.photoDesc} aspect="aspect-[4/5]" className="relative" />
+              <PhotoSlot src="/photos/hero-karting.jpg" alt="Jordi Facha Álvarez in a Sparco karting race suit" position="50% 30%" aspect="aspect-[4/5]" className="relative" />
             </div>
           </div>
         </div>
@@ -619,10 +619,27 @@ function Journey() {
                           <ArrowUpRight className="h-4 w-4" />
                         </a>
                       )}
-                      {s.photoDesc && (
-                        <div className={`mt-5 ${s.detour ? '' : 'lg:hidden'}`}>
-                          <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" compact />
+                      {s.photos ? (
+                        <div className="mt-5 grid grid-cols-2 gap-3">
+                          {s.photos.map((ph) => (
+                            <PhotoSlot
+                              key={ph.title}
+                              title={ph.title}
+                              desc={ph.desc}
+                              src={ph.available === false ? undefined : ph.src}
+                              position={ph.pos}
+                              caption={ph.caption}
+                              aspect="aspect-[4/3]"
+                              compact
+                            />
+                          ))}
                         </div>
+                      ) : (
+                        s.photoDesc && (
+                          <div className={`mt-5 ${s.detour ? '' : 'lg:hidden'}`}>
+                            <PhotoSlot title={s.school} desc={s.photoDesc} src={s.photo} position={s.photoPos} caption={s.photoCaption} aspect="aspect-[16/9]" compact />
+                          </div>
+                        )
                       )}
                     </div>
 
@@ -656,7 +673,7 @@ function Journey() {
                       <span className="ml-2 text-2xl align-top text-white/30">{s.unit}</span>
                     </p>
                     {s.photoDesc && !s.detour && (
-                      <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" className="w-full max-w-sm" compact />
+                      <PhotoSlot title={s.school} desc={s.photoDesc} src={s.photo} position={s.photoPos} caption={s.photoCaption} aspect="aspect-[16/9]" className="w-full max-w-sm" compact />
                     )}
 
                     {/* Detour (desktop): a bump off the centre line out to this side and back */}
