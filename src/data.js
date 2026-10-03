@@ -5,7 +5,7 @@ export const LINKS = {
   youtube: 'https://www.youtube.com/@InsideTheMachinePodcast-v6d',
   spotify: 'https://open.spotify.com/show/0h9qnzTYmNVhmcotTQsve1',
   spotifyEmbed: 'https://open.spotify.com/embed/show/0h9qnzTYmNVhmcotTQsve1?utm_source=generator&theme=0',
-  podcastInstagram: 'https://instagram.com/inside_the_machine_podcast',
+  podcastInstagram: 'https://instagram.com/inside_the_machine_',
   tiktok: 'https://www.tiktok.com/@itm_podcast_',
   researchPaper: '/aerodynamics-research-paper.pdf',
 }

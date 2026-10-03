@@ -1,20 +1,30 @@
 /** @type {import('tailwindcss').Config} */
+const v = (name) => `rgb(var(--c-${name}) / <alpha-value>)`
+
 export default {
   content: { relative: true, files: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'] },
   theme: {
     extend: {
+      // Every color is a CSS variable so light/dark themes share one class set.
+      // `white` is the foreground color (white in dark mode, navy in light mode);
+      // use `snow` where text must stay white in both themes.
       colors: {
-        primary: '#4C8DFF',
-        'primary-dark': '#2F6FE0',
-        'primary-light': '#8DB8FF',
-        accent: '#FF5A1F',
-        'accent-dark': '#E0440D',
-        background: '#08090C',
-        surface: '#101318',
-        ink: '#F4F6FA',
-        muted: '#8C97A8',
-        divider: '#1E2430',
-        deep: '#040507',
+        primary: v('primary'),
+        'primary-dark': v('primary-dark'),
+        'primary-light': v('primary-light'),
+        accent: v('accent'),
+        'accent-dark': v('accent-dark'),
+        background: v('bg'),
+        surface: v('surface'),
+        surface2: v('surface2'),
+        ink: v('fg'),
+        muted: v('muted'),
+        divider: v('divider'),
+        deep: v('deep'),
+        onprimary: v('onprimary'),
+        shade: v('shade'),
+        white: v('fg'),
+        snow: '#ffffff',
       },
       fontFamily: {
         display: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],

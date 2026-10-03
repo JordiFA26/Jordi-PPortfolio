@@ -36,7 +36,7 @@ function Donut({ active, setActive, total }) {
   return (
     <div ref={ref} className="relative mx-auto aspect-square w-full max-w-sm">
       <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
-        <circle cx="100" cy="100" r={r} fill="none" stroke="#1E2430" strokeWidth="22" />
+        <circle cx="100" cy="100" r={r} fill="none" style={{ stroke: 'rgb(var(--c-divider))' }} strokeWidth="22" />
         {ALLOCATION.map((seg, i) => {
           const len = (seg.value / total) * circ * progress
           const el = (

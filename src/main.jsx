@@ -6,7 +6,7 @@ import App from './App.jsx'
 import Podcast from './pages/Podcast.jsx'
 import InvestmentClub from './pages/InvestmentClub.jsx'
 import Services from './pages/Services.jsx'
-import { LangProvider } from './i18n.jsx'
+import { LangProvider, ThemeProvider } from './i18n.jsx'
 import { Footer, Navbar, ScrollManager } from './components.jsx'
 import './index.css'
 
@@ -32,18 +32,20 @@ function Layout() {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <LangProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<App />} />
-            <Route path="/podcast" element={<Podcast />} />
-            <Route path="/investment-club" element={<InvestmentClub />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </LangProvider>
+    <ThemeProvider>
+      <LangProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route path="/" element={<App />} />
+              <Route path="/podcast" element={<Podcast />} />
+              <Route path="/investment-club" element={<InvestmentClub />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </LangProvider>
+    </ThemeProvider>
   </StrictMode>,
 )

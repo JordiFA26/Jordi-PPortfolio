@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -13,8 +13,16 @@ import {
   Instagram,
   Music2,
   Clapperboard,
+  ChevronDown,
+  Moon,
+  Sun,
+  Mic,
+  TrendingUp,
+  Wind,
+  HandHeart,
+  LayoutGrid,
 } from 'lucide-react'
-import { useLang } from './i18n.jsx'
+import { useLang, useTheme } from './i18n.jsx'
 import { LINKS } from './data.js'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -32,23 +40,34 @@ export function usePageTitle(title) {
 }
 
 // Scroll to top on route change, or to #hash when present.
+// Hash targets land on the section's content (past its top padding),
+// just below the floating nav.
+export function scrollToSection(id, behavior = 'smooth') {
+  const el = document.getElementById(id)
+  if (!el) return false
+  const padTop = parseFloat(getComputedStyle(el).paddingTop) || 0
+  const y = el.getBoundingClientRect().top + window.scrollY + padTop - 112
+  window.scrollTo({ top: Math.max(0, y), behavior })
+  return true
+}
+
 export function ScrollManager() {
-  const { pathname, hash } = useLocation()
-  useEffect(() => {
+  const { pathname, hash, key } = useLocation()
+  useLayoutEffect(() => {
     if (hash) {
       const id = hash.slice(1)
-      const tryScroll = (n = 0) => {
-        const el = document.getElementById(id)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-        else if (n < 10) setTimeout(() => tryScroll(n + 1), 60)
+      let tries = 0
+      const tryScroll = () => {
+        if (!scrollToSection(id) && tries++ < 15) setTimeout(tryScroll, 60)
       }
       tryScroll()
     } else {
-      window.scrollTo(0, 0)
+      // 'instant' overrides the CSS smooth scroll so new pages start at the top.
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }
     const id = setTimeout(() => ScrollTrigger.refresh(), 300)
     return () => clearTimeout(id)
-  }, [pathname, hash])
+  }, [pathname, hash, key])
   return null
 }
 
@@ -99,7 +118,7 @@ export function LangToggle({ className = '' }) {
           onClick={() => setLang(l)}
           aria-pressed={lang === l}
           className={`px-2.5 py-1 rounded-full uppercase tracking-widest transition-colors ${
-            lang === l ? 'bg-primary text-deep font-semibold' : 'text-white/60 hover:text-white'
+            lang === l ? 'bg-primary text-onprimary font-semibold' : 'text-white/60 hover:text-white'
           }`}
         >
           {l}
@@ -109,13 +128,35 @@ export function LangToggle({ className = '' }) {
   )
 }
 
+export function ThemeToggle({ className = '' }) {
+  const { theme, setTheme } = useTheme()
+  const { t } = useLang()
+  const next = theme === 'dark' ? 'light' : 'dark'
+  return (
+    <button
+      onClick={() => setTheme(next)}
+      aria-label={next === 'light' ? t.nav.themeLight : t.nav.themeDark}
+      title={next === 'light' ? t.nav.themeLight : t.nav.themeDark}
+      className={`relative inline-flex h-[30px] w-[54px] items-center rounded-full border border-white/10 bg-white/[0.04] p-0.5 transition-colors ${className}`}
+    >
+      <span
+        className={`absolute top-0.5 h-[24px] w-[24px] rounded-full bg-primary shadow transition-transform duration-300 ${
+          theme === 'light' ? 'translate-x-[24px]' : 'translate-x-0'
+        }`}
+      />
+      <Moon className={`relative z-10 ml-[5px] h-3.5 w-3.5 transition-colors ${theme === 'dark' ? 'text-onprimary' : 'text-white/50'}`} />
+      <Sun className={`relative z-10 ml-[11px] h-3.5 w-3.5 transition-colors ${theme === 'light' ? 'text-onprimary' : 'text-white/50'}`} />
+    </button>
+  )
+}
+
 /* ----------------------------------------------------------------
    Navbar
 ---------------------------------------------------------------- */
 function Monogram() {
   return (
     <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-primary">
-      <span className="font-display font-extrabold text-[13px] tracking-tight text-deep">JF</span>
+      <span className="font-display font-extrabold text-[13px] tracking-tight text-onprimary">JF</span>
       <span className="absolute inset-0 rounded-full ring-2 ring-primary/30 group-hover:ring-primary/60 transition" />
     </span>
   )
@@ -140,19 +181,66 @@ export function Navbar() {
     }
   }, [open])
 
+  const [projOpen, setProjOpen] = useState(false)
+  const [mobileProjOpen, setMobileProjOpen] = useState(false)
+  const { pathname } = useLocation()
+  useEffect(() => {
+    setProjOpen(false)
+    setOpen(false)
+  }, [pathname])
+
   const links = [
     { to: '/#about', label: t.nav.about },
     { to: '/#journey', label: t.nav.journey },
-    { to: '/#projects', label: t.nav.projects },
+    { to: '/#projects', label: t.nav.projects, menu: true },
     { to: '/podcast', label: t.nav.podcast },
     { to: '/#contact', label: t.nav.contact },
   ]
+
+  const projects = [
+    { to: '/podcast', Icon: Mic, label: t.nav.menuPodcast, desc: t.nav.menuPodcastDesc },
+    { to: '/investment-club', Icon: TrendingUp, label: t.nav.menuClub, desc: t.nav.menuClubDesc },
+    { href: LINKS.researchPaper, Icon: Wind, label: t.nav.menuPaper, desc: t.nav.menuPaperDesc },
+    { to: '/services', Icon: HandHeart, label: t.nav.menuCommunity, desc: t.nav.menuCommunityDesc },
+  ]
+
+  // Re-scroll even when the hash is already in the URL (same-link clicks).
+  const onHashClick = (to) => (e) => {
+    const [path, hash] = to.split('#')
+    if (hash && (path || '/') === pathname) {
+      e.preventDefault()
+      window.history.replaceState(null, '', `#${hash}`)
+      scrollToSection(hash)
+      setOpen(false)
+      setProjOpen(false)
+    }
+  }
+
+  const ProjectItem = ({ p, onClick }) => {
+    const inner = (
+      <>
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+          <p.Icon className="h-4 w-4" />
+        </span>
+        <span className="min-w-0">
+          <span className="block text-sm font-semibold text-white">{p.label}</span>
+          <span className="block text-xs text-white/50 truncate">{p.desc}</span>
+        </span>
+      </>
+    )
+    const cls = 'flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-white/[0.05] transition-colors'
+    return p.href ? (
+      <a href={p.href} target="_blank" rel="noopener" className={cls} onClick={onClick}>{inner}</a>
+    ) : (
+      <Link to={p.to} className={cls} onClick={onClick}>{inner}</Link>
+    )
+  }
 
   return (
     <>
       <nav
         className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${
-          scrolled ? 'glass shadow-lg shadow-black/40' : 'bg-transparent border border-transparent'
+          scrolled ? 'glass shadow-lg shadow-shade/30' : 'bg-transparent border border-transparent'
         } rounded-full pl-2 pr-2 sm:pl-3 sm:pr-3 py-2 w-[calc(100%-2rem)] max-w-5xl`}
       >
         <div className="flex items-center justify-between gap-4">
@@ -164,24 +252,63 @@ export function Navbar() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-7">
-            {links.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                className="text-sm font-medium tracking-tight text-white/70 hover:text-white lift-on-hover transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {links.map((link) =>
+              link.menu ? (
+                <div
+                  key={link.to}
+                  className="relative"
+                  onMouseEnter={() => setProjOpen(true)}
+                  onMouseLeave={() => setProjOpen(false)}
+                >
+                  <button
+                    onClick={() => setProjOpen((o) => !o)}
+                    aria-expanded={projOpen}
+                    className="inline-flex items-center gap-1 text-sm font-medium tracking-tight text-white/70 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                    <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-300 ${projOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  <div
+                    className={`absolute left-1/2 top-full -translate-x-1/2 pt-4 transition-all duration-300 ${
+                      projOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-2 pointer-events-none'
+                    }`}
+                  >
+                    <div className="w-72 rounded-3xl border border-divider bg-surface p-2 shadow-2xl shadow-shade/30">
+                      {projects.map((p) => (
+                        <ProjectItem key={p.label} p={p} onClick={() => setProjOpen(false)} />
+                      ))}
+                      <Link
+                        to="/#projects"
+                        onClick={onHashClick('/#projects')}
+                        className="mt-1 flex items-center justify-between rounded-2xl border-t border-divider px-3 py-3 text-xs font-semibold uppercase tracking-wider text-white/50 hover:text-primary transition-colors"
+                      >
+                        <span className="inline-flex items-center gap-2"><LayoutGrid className="h-3.5 w-3.5" />{t.nav.allProjects}</span>
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={onHashClick(link.to)}
+                  className="text-sm font-medium tracking-tight text-white/70 hover:text-white lift-on-hover transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle className="hidden sm:inline-flex" />
             <LangToggle className="hidden sm:inline-flex" />
             <a
               href={LINKS.linkedin}
               target="_blank"
               rel="noopener"
-              className="hidden lg:inline-flex magnetic-btn items-center gap-1.5 bg-primary text-deep px-4 py-2 rounded-full text-sm font-semibold shadow-lg shadow-primary/25"
+              className="hidden lg:inline-flex magnetic-btn items-center gap-1.5 bg-primary text-onprimary px-4 py-2 rounded-full text-sm font-semibold shadow-lg shadow-primary/25"
             >
               <Linkedin className="h-4 w-4" strokeWidth={2.4} />
               LinkedIn
@@ -219,17 +346,40 @@ export function Navbar() {
               <X className="h-5 w-5" />
             </button>
           </div>
-          <div className="flex flex-col">
-            {links.map((link) => (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setOpen(false)}
-                className="font-display text-3xl font-semibold text-white py-3 border-b border-divider"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="flex flex-col max-h-[60vh] overflow-y-auto">
+            {links.map((link) =>
+              link.menu ? (
+                <div key={link.to} className="border-b border-divider">
+                  <button
+                    onClick={() => setMobileProjOpen((o) => !o)}
+                    aria-expanded={mobileProjOpen}
+                    className="flex w-full items-center justify-between font-display text-3xl font-semibold text-white py-3"
+                  >
+                    {link.label}
+                    <ChevronDown className={`h-6 w-6 text-white/50 transition-transform duration-300 ${mobileProjOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  <div className={`grid transition-all duration-300 ${mobileProjOpen ? 'grid-rows-[1fr] pb-3' : 'grid-rows-[0fr]'}`}>
+                    <div className="overflow-hidden">
+                      {projects.map((p) => (
+                        <ProjectItem key={p.label} p={p} onClick={() => setOpen(false)} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  onClick={(e) => {
+                    onHashClick(link.to)(e)
+                    setOpen(false)
+                  }}
+                  className="font-display text-3xl font-semibold text-white py-3 border-b border-divider"
+                >
+                  {link.label}
+                </Link>
+              ),
+            )}
           </div>
           <div className="mt-8 flex items-center gap-3">
             <a
@@ -237,12 +387,15 @@ export function Navbar() {
               target="_blank"
               rel="noopener"
               onClick={() => setOpen(false)}
-              className="magnetic-btn flex-1 flex items-center justify-center gap-2 bg-primary text-deep px-6 py-4 rounded-full font-semibold"
+              className="magnetic-btn flex-1 flex items-center justify-center gap-2 bg-primary text-onprimary px-6 py-4 rounded-full font-semibold"
             >
               <Linkedin className="h-4 w-4" />
               LinkedIn
             </a>
-            <LangToggle />
+            <div className="flex flex-col items-end gap-2">
+              <ThemeToggle />
+              <LangToggle />
+            </div>
           </div>
         </div>
       </div>
@@ -275,14 +428,14 @@ export function SectionTitle({ title, italic, className = '' }) {
 /* ----------------------------------------------------------------
    Photo placeholder — describes the shot Jordi should add later
 ---------------------------------------------------------------- */
-export function PhotoSlot({ title, desc, className = '', aspect = 'aspect-[4/3]' }) {
+export function PhotoSlot({ title, desc, className = '', aspect = 'aspect-[4/3]', compact = false }) {
   const { t } = useLang()
   return (
     <div
       className={`relative overflow-hidden rounded-3xl border border-dashed border-primary/30 photo-slot-bg ${aspect} ${className}`}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.07] via-transparent to-accent/[0.05]" />
-      <div className="relative h-full w-full flex flex-col justify-between p-5 sm:p-6">
+      <div className={`relative h-full w-full flex flex-col justify-between ${compact ? 'p-4' : 'p-5 sm:p-6'}`}>
         <div className="flex items-center justify-between">
           <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
             <Camera className="h-3 w-3" />
@@ -291,8 +444,8 @@ export function PhotoSlot({ title, desc, className = '', aspect = 'aspect-[4/3]'
           <span className="h-2 w-2 rounded-full bg-accent/80" />
         </div>
         <div>
-          <p className="font-display font-semibold text-white text-lg leading-tight">{title}</p>
-          <p className="mt-2 text-sm text-white/55 leading-relaxed">{desc}</p>
+          <p className={`font-display font-semibold text-white leading-tight ${compact ? 'text-sm' : 'text-lg'}`}>{title}</p>
+          <p className={`mt-1.5 text-white/55 leading-relaxed ${compact ? 'text-xs' : 'text-sm'}`}>{desc}</p>
         </div>
       </div>
     </div>
@@ -353,6 +506,17 @@ export function AirflowField({ className = '', density = 34 }) {
     let raf = 0
     let particles = []
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    let flow = '141,184,255'
+    let hot = '255,90,31'
+    let alphaBoost = 1
+    const readColors = () => {
+      const cs = getComputedStyle(document.documentElement)
+      flow = cs.getPropertyValue('--c-flow').trim().split(/\s+/).join(',') || flow
+      hot = cs.getPropertyValue('--c-accent').trim().split(/\s+/).join(',') || hot
+      alphaBoost = document.documentElement.dataset.theme === 'light' ? 1.5 : 1
+    }
+    readColors()
+    window.addEventListener('themechange', readColors)
 
     const resize = () => {
       w = canvas.clientWidth
@@ -400,9 +564,9 @@ export function AirflowField({ className = '', density = 34 }) {
         if (p.trail.length > 1) {
           const [x0, y0] = p.trail[0]
           const grad = ctx.createLinearGradient(x0, y0, p.x, p.y)
-          const c = p.hot ? '255,90,31' : '141,184,255'
+          const c = p.hot ? hot : flow
           grad.addColorStop(0, `rgba(${c},0)`)
-          grad.addColorStop(1, `rgba(${c},${p.alpha})`)
+          grad.addColorStop(1, `rgba(${c},${Math.min(1, p.alpha * alphaBoost)})`)
           ctx.strokeStyle = grad
           ctx.lineWidth = p.hot ? 1.4 : 1
           ctx.beginPath()
@@ -443,6 +607,7 @@ export function AirflowField({ className = '', density = 34 }) {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
+      window.removeEventListener('themechange', readColors)
       document.removeEventListener('visibilitychange', onVis)
     }
   }, [density])
@@ -551,6 +716,7 @@ export function Footer() {
           <span>© {new Date().getFullYear()} Jordi Facha Álvarez. {t.footer.rights}</span>
           <div className="flex items-center gap-4">
             <span className="hidden sm:inline">{t.footer.made}</span>
+            <ThemeToggle />
             <LangToggle />
           </div>
         </div>

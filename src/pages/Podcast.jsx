@@ -1,4 +1,5 @@
-import { Mic, Music2, Play, Youtube } from 'lucide-react'
+import { useState } from 'react'
+import { ChevronDown, Mic, Music2, Play, Youtube } from 'lucide-react'
 import { useLang, useL } from '../i18n.jsx'
 import { EPISODES, LATEST, LINKS, ytThumb, ytWatch } from '../data.js'
 import {
@@ -14,11 +15,44 @@ import {
 
 const container = 'max-w-7xl mx-auto px-6 sm:px-10 lg:px-16'
 
+function EpisodeCard({ ep }) {
+  const l = useL()
+  return (
+              <a
+                href={ytWatch(ep.id)}
+                target="_blank"
+                rel="noopener"
+                className="ep-card group flex flex-col overflow-hidden rounded-3xl border border-divider bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5"
+              >
+                <div className="relative aspect-video overflow-hidden bg-deep">
+                  <img src={ytThumb(ep.id)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <span className="absolute top-3 left-3 rounded-full bg-black/70 backdrop-blur px-3 py-1 font-display text-xs font-bold text-snow">
+                    Ep. {ep.num}
+                  </span>
+                  <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-onprimary shadow-2xl shadow-primary/40">
+                      <Play className="h-6 w-6 translate-x-0.5" fill="currentColor" />
+                    </span>
+                  </span>
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
+                    {l(ep.date)} · {ep.lang} · {l(ep.guest)}
+                  </p>
+                  <h3 className="mt-3 font-display text-lg font-bold leading-snug text-white">{ep.title}</h3>
+                  <p className="mt-3 text-sm text-white/55 leading-relaxed line-clamp-3">{l(ep.desc)}</p>
+                </div>
+              </a>
+  )
+}
+
 export default function Podcast() {
   const { t } = useLang()
   const l = useL()
   const p = t.podcastPage
   usePageTitle(t.meta.podcastTitle)
+  const [showAll, setShowAll] = useState(false)
 
   const aboutRef = useReveal()
   const latestRef = useReveal()
@@ -33,7 +67,7 @@ export default function Podcast() {
             href={LINKS.youtube}
             target="_blank"
             rel="noopener"
-            className="magnetic-btn inline-flex items-center justify-center gap-2 bg-primary text-deep font-semibold px-7 py-4 rounded-full shadow-2xl shadow-primary/30"
+            className="magnetic-btn inline-flex items-center justify-center gap-2 bg-primary text-onprimary font-semibold px-7 py-4 rounded-full shadow-2xl shadow-primary/30"
           >
             <Youtube className="h-4 w-4" />
             {p.watch}
@@ -112,7 +146,7 @@ export default function Podcast() {
             </div>
             <div className="lg:col-span-5 p-6 sm:p-10 flex flex-col">
               <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-primary px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-deep">
+                <span className="rounded-full bg-primary px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-onprimary">
                   {p.episodeLabel} {LATEST.num}
                 </span>
                 <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-white/55">
@@ -147,36 +181,50 @@ export default function Podcast() {
             <p className="text-white/55 max-w-md leading-relaxed">{p.archiveSub}</p>
           </div>
           <div ref={archiveRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {EPISODES.map((ep) => (
-              <a
-                key={ep.id}
-                href={ytWatch(ep.id)}
-                target="_blank"
-                rel="noopener"
-                className="ep-card group flex flex-col overflow-hidden rounded-3xl border border-divider bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5"
-              >
-                <div className="relative aspect-video overflow-hidden bg-deep">
-                  <img src={ytThumb(ep.id)} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-deep/60 to-transparent" />
-                  <span className="absolute top-3 left-3 rounded-full bg-deep/80 backdrop-blur px-3 py-1 font-display text-xs font-bold text-white">
-                    Ep. {ep.num}
-                  </span>
-                  <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary text-deep shadow-2xl shadow-primary/40">
-                      <Play className="h-6 w-6 translate-x-0.5" fill="currentColor" />
-                    </span>
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
-                    {l(ep.date)} · {ep.lang} · {l(ep.guest)}
-                  </p>
-                  <h3 className="mt-3 font-display text-lg font-bold leading-snug text-white">{ep.title}</h3>
-                  <p className="mt-3 text-sm text-white/55 leading-relaxed line-clamp-3">{l(ep.desc)}</p>
-                </div>
-              </a>
+            {EPISODES.slice(0, 3).map((ep) => (
+              <EpisodeCard key={ep.id} ep={ep} />
             ))}
           </div>
+
+          {EPISODES.length > 3 && (
+            <>
+              <button
+                onClick={() => setShowAll((v) => !v)}
+                aria-expanded={showAll}
+                className="mt-8 flex w-full items-center justify-between rounded-2xl border border-divider bg-surface px-6 py-5 text-left transition-colors hover:border-primary/40"
+              >
+                <span className="font-display font-semibold text-white">
+                  {showAll ? p.hideAll : `${p.showAll} (${EPISODES.length})`}
+                </span>
+                <ChevronDown className={`h-5 w-5 text-white/50 transition-transform duration-300 ${showAll ? 'rotate-180' : ''}`} />
+              </button>
+              <div className={`grid transition-all duration-500 ${showAll ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0'}`}>
+                <div className="overflow-hidden">
+                  <ul className="divide-y divide-divider rounded-2xl border border-divider bg-surface">
+                    {EPISODES.slice(3).map((ep) => (
+                      <li key={ep.id}>
+                        <a
+                          href={ytWatch(ep.id)}
+                          target="_blank"
+                          rel="noopener"
+                          className="group flex items-center gap-4 p-4 sm:p-5 transition-colors hover:bg-white/[0.03]"
+                        >
+                          <img src={ytThumb(ep.id)} alt="" loading="lazy" className="h-16 w-28 shrink-0 rounded-xl object-cover" />
+                          <span className="min-w-0 flex-1">
+                            <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-white/45">
+                              Ep. {ep.num} · {l(ep.date)} · {ep.lang}
+                            </span>
+                            <span className="mt-1 block font-display font-semibold text-white leading-snug line-clamp-2">{ep.title}</span>
+                          </span>
+                          <Play className="h-4 w-4 shrink-0 text-white/40 group-hover:text-primary transition-colors" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </section>
 

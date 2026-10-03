@@ -23,7 +23,7 @@ export default function Services() {
             <p className="mt-4 text-white/60 leading-relaxed">{s.soonDesc}</p>
             <Link
               to="/"
-              className="magnetic-btn mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 font-semibold text-deep"
+              className="magnetic-btn mt-8 inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 font-semibold text-onprimary"
             >
               <ArrowLeft className="h-4 w-4" />
               {s.back}

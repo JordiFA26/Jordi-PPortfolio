@@ -4,8 +4,6 @@ import { gsap } from 'gsap'
 import {
   ArrowRight,
   ArrowUpRight,
-  Award,
-  BookOpen,
   Check,
   FileText,
   GraduationCap,
@@ -16,11 +14,9 @@ import {
   Mic,
   Send,
   TrendingUp,
-  Trophy,
-  Users,
   Wind,
-  Globe2,
   Flag,
+  MapPin,
 } from 'lucide-react'
 import { useLang, useL } from './i18n.jsx'
 import { EPISODES, LATEST, LINKS, ytThumb, ytWatch } from './data.js'
@@ -94,7 +90,7 @@ function Hero() {
             <div className="hero-cta mt-10 flex flex-col sm:flex-row gap-4">
               <Link
                 to="/podcast"
-                className="magnetic-btn group inline-flex items-center justify-center gap-2 bg-primary text-deep font-semibold px-7 py-4 rounded-full shadow-2xl shadow-primary/30"
+                className="magnetic-btn group inline-flex items-center justify-center gap-2 bg-primary text-onprimary font-semibold px-7 py-4 rounded-full shadow-2xl shadow-primary/30"
               >
                 <Mic className="h-4 w-4" />
                 {t.hero.ctaPrimary}
@@ -117,8 +113,8 @@ function Hero() {
               rel="noopener"
               className="hero-meta group mt-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] pl-2 pr-4 py-2 hover:border-primary/40 transition-colors"
             >
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-white">
-                <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-widest text-snow">
+                <span className="h-1.5 w-1.5 rounded-full bg-snow animate-pulse" />
                 {t.hero.live}
               </span>
               <span className="text-sm text-white/75 group-hover:text-white transition-colors">
@@ -160,10 +156,10 @@ function About() {
               <div className="absolute -inset-3 rounded-[2.25rem] bg-gradient-to-br from-primary/25 via-transparent to-accent/15 blur-xl" />
               <div className="relative overflow-hidden rounded-4xl border border-white/10 aspect-[3/4] max-w-sm mx-auto lg:max-w-none">
                 <img src="/portrait.jpg" alt="Jordi Facha Álvarez" className="h-full w-full object-cover" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-t from-deep/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between glass rounded-2xl px-4 py-3">
                   <span className="font-display font-semibold text-white text-sm">Jordi Facha Álvarez</span>
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-primary-light">UFV · Madrid</span>
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-primary">UFV · Madrid</span>
                 </div>
               </div>
             </div>
@@ -184,6 +180,24 @@ function About() {
             <div className="reveal-item mt-10 text-white/45">
               {t.about.sign}
               <span className="block mt-1 font-serif italic text-3xl text-primary-light">Jordi Facha Álvarez</span>
+            </div>
+
+            <div className="reveal-item mt-14 rounded-3xl border border-divider bg-surface p-6 sm:p-8">
+              <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.18em] text-white/45 mb-6">{t.about.toolkitTitle}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {t.about.toolkit.map((g) => (
+                  <div key={g.group}>
+                    <p className="font-display font-semibold text-white">{g.group}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {g.items.map((item) => (
+                        <span key={item} className="rounded-full bg-white/[0.04] border border-white/10 px-3 py-1.5 text-sm text-white/70">
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -223,7 +237,7 @@ function EpisodeShuffler() {
             filter: i ? `blur(${i}px)` : 'none',
             transition: 'transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease, filter 0.6s ease',
           }}
-          className="absolute inset-0 right-6 bottom-6 flex gap-4 rounded-3xl border border-white/10 bg-[#141922] p-4 shadow-xl shadow-black/40"
+          className="absolute inset-0 right-6 bottom-6 flex gap-4 rounded-3xl border border-white/10 bg-surface2 p-4 shadow-xl shadow-shade/30"
         >
           <img src={ytThumb(ep.id)} alt="" className="h-full w-28 shrink-0 rounded-2xl object-cover" loading="lazy" />
           <div className="min-w-0 flex flex-col">
@@ -243,37 +257,56 @@ function EpisodeShuffler() {
 }
 
 /* ----------------------------------------------------------------
-   Feature card 2 — Signature animation: airflow over a rear wing
-   (re-skin of the skill's falling-drop component: source = car body,
-   particles = air parcels, ripples = wake vortices)
+   Feature card 2 — Signature animation: airflow over a Porsche 911
+   GT3 RS side profile (re-skin of the skill's falling-drop component:
+   source = car body, particles = air parcels, ripples = wake vortices)
 ---------------------------------------------------------------- */
 const STREAMLINES = [
-  'M-10,20 C80,20 170,16 330,12',
-  'M-10,34 C70,34 120,30 170,30 C220,30 245,34 262,34 C285,24 305,18 330,16',
-  'M-10,48 C40,48 70,46 100,40 C140,30 190,32 230,42 C250,46 262,46 270,44 C290,36 310,30 330,28',
-  'M-10,62 C30,62 50,62 70,58 C110,48 170,48 230,56 C255,60 275,62 330,60',
+  'M-10,16 C100,16 200,14 330,10',
+  'M-10,30 C70,30 130,30 170,28 C210,27 236,24 252,23 C278,20 300,15 330,10',
+  'M-10,50 C60,50 110,44 150,36 C180,31 214,34 240,44 C254,48 268,46 284,44 C302,40 316,36 330,34',
+  'M-10,72 C20,72 40,70 60,68 C90,66 110,62 130,52 C150,40 175,35 200,38 C230,44 262,56 296,64 C308,66 318,66 330,66',
+  'M-10,114 C60,114 200,114 330,112',
 ]
+
+const car = (name) => ({ fill: `rgb(var(--c-${name}))` })
+const carStroke = (name) => ({ stroke: `rgb(var(--c-${name}))` })
+
+function Wheel({ x }) {
+  return (
+    <g>
+      <circle cx={x} cy="101" r="17.5" style={car('tyre')} />
+      <circle cx={x} cy="101" r="12" style={{ ...car('car-glass'), ...carStroke('car-edge') }} strokeWidth="1.2" />
+      <g style={carStroke('car-edge')} strokeWidth="1.6">
+        <line x1={x} y1="90" x2={x} y2="112" />
+        <line x1={x - 11} y1="101" x2={x + 11} y2="101" />
+        <line x1={x - 8} y1="93" x2={x + 8} y2="109" />
+        <line x1={x + 8} y1="93" x2={x - 8} y2="109" />
+      </g>
+      <circle cx={x} cy="101" r="3" style={car('primary')} />
+      <path d={`M${x - 9.5},95 A11,11 0 0 1 ${x - 4},90.5`} style={carStroke('accent')} strokeWidth="2.5" fill="none" />
+    </g>
+  )
+}
 
 function AeroWing() {
   const { t } = useLang()
   const states = t.features.aero.states
   const [idx, setIdx] = useState(0)
-  const [downforce, setDownforce] = useState(42)
-  const wingLens = [34, 46, 58, 46]
+  const [downforce, setDownforce] = useState(412)
+  const wingScale = [0.78, 1, 1.18, 1]
 
   useEffect(() => {
     if (prefersReducedMotion()) return
     const id = setInterval(() => {
       setIdx((i) => (i + 1) % states.length)
-      setDownforce(38 + Math.round(Math.random() * 14))
+      setDownforce(380 + Math.round(Math.random() * 90))
     }, 2300)
     return () => clearInterval(id)
   }, [states.length])
 
-  const wing = wingLens[idx % wingLens.length]
-
   return (
-    <div className="relative h-44 w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0E1A30] via-[#0B1120] to-[#08090C]">
+    <div className="relative h-44 w-full overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-primary/15 via-surface2 to-surface2">
       <style>{`
         @keyframes air-dash { to { stroke-dashoffset: -120; } }
         @keyframes air-ripple {
@@ -285,25 +318,21 @@ function AeroWing() {
       `}</style>
 
       {/* Atmospheric blobs */}
-      <div className="absolute -top-10 left-6 h-24 w-24 rounded-full bg-primary/25 blur-2xl" />
-      <div className="absolute bottom-0 right-4 h-20 w-28 rounded-full bg-accent/15 blur-2xl" />
+      <div className="absolute -top-10 left-6 h-24 w-24 rounded-full bg-primary/20 blur-2xl" />
+      <div className="absolute bottom-0 right-4 h-20 w-28 rounded-full bg-accent/10 blur-2xl" />
 
       {/* Header strip */}
       <div className="absolute top-3 left-4 right-4 flex items-center justify-between z-10">
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">{t.features.aero.header}</span>
-        <span className="font-mono text-[10px] text-primary-light tabular-nums">DF {downforce} N</span>
+        <span className="font-mono text-[10px] text-primary-light tabular-nums">DF {downforce} kg</span>
       </div>
 
-      <svg viewBox="0 0 320 140" className="absolute inset-x-0 bottom-6 w-full h-[120px]" preserveAspectRatio="xMidYMid meet">
+      <svg viewBox="0 0 320 140" className="absolute inset-x-0 bottom-5 w-full h-[124px]" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
         <defs>
           <linearGradient id="flow" x1="0" x2="1">
-            <stop offset="0" stopColor="#8DB8FF" stopOpacity="0" />
-            <stop offset="0.5" stopColor="#8DB8FF" stopOpacity="0.8" />
-            <stop offset="1" stopColor="#4C8DFF" stopOpacity="0.3" />
-          </linearGradient>
-          <linearGradient id="body" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0" stopColor="#1F2A3D" />
-            <stop offset="1" stopColor="#111722" />
+            <stop offset="0" stopColor="rgb(var(--c-flow))" stopOpacity="0" />
+            <stop offset="0.5" stopColor="rgb(var(--c-flow))" stopOpacity="0.75" />
+            <stop offset="1" stopColor="rgb(var(--c-primary))" stopOpacity="0.3" />
           </linearGradient>
         </defs>
 
@@ -317,60 +346,71 @@ function AeroWing() {
             stroke="url(#flow)"
             strokeWidth="1.2"
             strokeDasharray="18 12"
-            style={{ animation: `air-dash ${2.4 + i * 0.35}s linear infinite` }}
+            style={{ animation: `air-dash ${2.4 + i * 0.3}s linear infinite` }}
           />
         ))}
 
         {/* Air parcels travelling along the streamlines */}
         {STREAMLINES.map((_, i) =>
           [0, 1].map((k) => (
-            <circle key={`${i}-${k}`} r={k ? 1.6 : 2.2} fill={i === 2 && k === 0 ? '#FF5A1F' : '#CFE0FF'}>
-              <animateMotion dur={`${2.2 + i * 0.4}s`} begin={`${k * 1.1 + i * 0.3}s`} repeatCount="indefinite">
+            <circle key={`${i}-${k}`} r={k ? 1.5 : 2.1} style={car(i === 2 && k === 0 ? 'accent' : 'flow')}>
+              <animateMotion dur={`${2.2 + i * 0.35}s`} begin={`${k * 1.1 + i * 0.3}s`} repeatCount="indefinite">
                 <mpath href={`#sl-${i}`} />
               </animateMotion>
             </circle>
           )),
         )}
 
-        {/* Car body (911 RSR-ish profile, nose left) */}
+        {/* Porsche 911 GT3 RS — side profile, nose left */}
         <path
-          d="M28,104 C28,94 36,88 52,86 L92,80 C110,62 140,54 176,54 C206,54 226,64 240,76 L276,82 C290,84 296,92 296,104 Z"
-          fill="url(#body)"
-          stroke="#2C3A52"
+          style={{ ...car('car-body'), ...carStroke('car-edge') }}
           strokeWidth="1"
+          strokeLinejoin="round"
+          d="M7,110 L12,107 L11,100 C10,95 12,92 16,90 C26,86 38,82 50,80 C62,78 74,78 86,79 C96,79 104,78 110,77 C122,64 134,50 152,44 C164,40 180,40 192,42 C226,48 262,62 296,72 C302,74 306,76 307,80 L308,96 C308,103 305,107 300,108 L251.8,108 A20,20 0 1 0 212.2,108 L91.8,108 A20,20 0 1 0 52.2,108 L16,108 Z"
         />
-        <path d="M104,78 C120,66 142,60 170,60 C192,60 206,66 216,74 Z" fill="#0B111B" opacity="0.9" />
-        <circle cx="78" cy="104" r="13" fill="#05070A" stroke="#2C3A52" />
-        <circle cx="78" cy="104" r="5" fill="#1F2A3D" />
-        <circle cx="250" cy="104" r="13" fill="#05070A" stroke="#2C3A52" />
-        <circle cx="250" cy="104" r="5" fill="#1F2A3D" />
+        {/* greenhouse + B-pillar */}
+        <path style={car('car-glass')} d="M121,72 C131,61 142,50 156,46 L186,45 C204,47 220,53 232,61 L226,65 L123,72 Z" />
+        <line x1="188" y1="45" x2="186" y2="68" style={carStroke('car-body')} strokeWidth="3.5" />
+        {/* shoulder line, door cuts, front-wheel vents */}
+        <path d="M200,73 C230,67 262,70 292,77" style={carStroke('car-edge')} strokeWidth=".8" fill="none" />
+        <path d="M117,77 L114,106 M191,71 L193,106" style={carStroke('car-edge')} strokeWidth=".7" fill="none" />
+        <g style={carStroke('car-glass')} strokeWidth="1.8" strokeLinecap="round">
+          <line x1="96" y1="84" x2="99" y2="91" />
+          <line x1="100" y1="83" x2="103" y2="90" />
+          <line x1="104" y1="82" x2="107" y2="89" />
+        </g>
+        {/* headlight, tail light, front splitter */}
+        <ellipse cx="38" cy="83.5" rx="7" ry="2.6" transform="rotate(-10 38 83.5)" style={car('flow')} opacity=".85" />
+        <path d="M304,81 L307.5,82 L307.8,88 L304.5,87 Z" style={car('accent')} />
+        <path d="M8,110 L40,110" style={carStroke('car-edge')} strokeWidth="1.5" />
 
-        {/* Rear wing — length changes with state */}
-        <line x1="270" y1="80" x2="270" y2="54" stroke="#3A4B68" strokeWidth="2" />
-        <rect
-          x={270 - wing / 2}
-          y="48"
-          width={wing}
-          height="5"
-          rx="2.5"
-          fill="#4C8DFF"
-          style={{ transition: 'x 0.6s cubic-bezier(0.34,1.56,0.64,1), width 0.6s cubic-bezier(0.34,1.56,0.64,1)' }}
-        />
+        {/* Swan-neck rear wing — chord changes with each test state */}
+        <path d="M261,62 C260,50 263,40 270,34" style={carStroke('car-edge')} strokeWidth="3" fill="none" strokeLinecap="round" />
+        <g
+          style={{
+            transformBox: 'view-box',
+            transformOrigin: '270px 34px',
+            transform: `scaleX(${wingScale[idx % wingScale.length]})`,
+            transition: 'transform 0.7s cubic-bezier(0.34,1.56,0.64,1)',
+          }}
+        >
+          <path style={car('primary')} d="M244,36 C258,31 284,30 302,33 L302,37 C286,37 262,38 244,39.5 Z" />
+          <path style={car('primary')} opacity=".7" d="M287,27.5 C293,26.5 299,26.5 304,27.5 L304,30 C298,30 292,30 287,31 Z" />
+        </g>
+
+        <Wheel x={72} />
+        <Wheel x={232} />
 
         {/* Ground */}
-        <line x1="0" y1="118" x2="320" y2="118" stroke="#1E2430" strokeWidth="1" />
+        <line x1="0" y1="119" x2="320" y2="119" style={carStroke('divider')} strokeWidth="1" />
       </svg>
 
-      {/* Wake vortices (ripples) */}
+      {/* Wake vortices (ripples) behind the wing */}
       {[0, 1, 2].map((i) => (
         <span
           key={i}
           className="absolute h-3 w-3 rounded-full border border-primary/60"
-          style={{
-            right: `${8 + i * 6}%`,
-            top: `${42 + i * 6}%`,
-            animation: `air-ripple 2.4s ease-out ${i * 0.8}s infinite`,
-          }}
+          style={{ right: `${3 + i * 4}%`, top: `${24 + i * 7}%`, animation: `air-ripple 2.4s ease-out ${i * 0.8}s infinite` }}
         />
       ))}
 
@@ -380,6 +420,7 @@ function AeroWing() {
         <span key={idx} className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/70" style={{ animation: 'air-fadein 0.4s ease both' }}>
           {states[idx]}
         </span>
+        <span className="ml-auto font-mono text-[10px] text-white/40">911 GT3 RS</span>
       </div>
     </div>
   )
@@ -414,7 +455,7 @@ function StudyScheduler() {
   const booked = step >= 3
 
   return (
-    <div className="relative h-44 w-full rounded-3xl border border-white/10 bg-[#0E1218] p-4 overflow-hidden">
+    <div className="relative h-44 w-full rounded-3xl border border-white/10 bg-surface2 p-4 overflow-hidden">
       <div className="flex items-center justify-between">
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/55">UFV · {n.tag}</span>
         <span className="flex items-center gap-3 font-mono text-[9px] uppercase tracking-wider text-white/45">
@@ -456,7 +497,7 @@ function StudyScheduler() {
 
       <div className="absolute bottom-3 left-4 right-4 flex items-center gap-2">
         <span className={`flex h-4 w-4 items-center justify-center rounded-full transition-colors ${booked ? 'bg-accent' : 'bg-white/10'}`}>
-          {booked && <Check className="h-2.5 w-2.5 text-white" strokeWidth={3} />}
+          {booked && <Check className="h-2.5 w-2.5 text-snow" strokeWidth={3} />}
         </span>
         <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/70">{booked ? n.booked : n.picking}</span>
       </div>
@@ -472,7 +513,7 @@ function StudyScheduler() {
           transition: 'left 0.9s cubic-bezier(0.65,0,0.35,1), top 0.9s cubic-bezier(0.65,0,0.35,1), transform 0.15s ease',
         }}
       >
-        <path d="M4 2 L20 12 L12.5 13.5 L9 21 Z" fill="#fff" stroke="#08090C" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M4 2 L20 12 L12.5 13.5 L9 21 Z" fill="#fff" stroke="#0D1016" strokeWidth="1.5" strokeLinejoin="round" />
       </svg>
     </div>
   )
@@ -577,93 +618,126 @@ function Pillars() {
 }
 
 /* ----------------------------------------------------------------
-   Journey — sticky stack with GSAP scrub
+   Journey — timeline of places and schools, line fills on scroll
 ---------------------------------------------------------------- */
 function Journey() {
   const { t } = useLang()
   const j = t.journey
-  const ref = useRef(null)
-  const icons = [BookOpen, GraduationCap, Trophy]
+  const ref = useReveal('.stop-item', { stagger: 0.1 })
+  const lineRef = useRef(null)
 
   useEffect(() => {
-    if (prefersReducedMotion()) return
-    const mm = gsap.matchMedia()
-    // Sticky stack only on large screens; on phones the cards are taller
-    // than the viewport and would cover each other.
-    mm.add('(min-width: 1024px)', () => {
-      const cards = gsap.utils.toArray('.journey-card', ref.current)
-      cards.slice(0, -1).forEach((card) => {
-        gsap.to(card, {
-          scrollTrigger: { trigger: card, start: 'top top+=100', end: '+=500', scrub: 1 },
-          scale: 0.92,
-          filter: 'blur(6px) saturate(0.7)',
-          opacity: 0.5,
+    if (prefersReducedMotion() || !lineRef.current) return
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        lineRef.current,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
           ease: 'none',
-        })
-      })
+          scrollTrigger: { trigger: lineRef.current.parentElement, start: 'top 70%', end: 'bottom 60%', scrub: 0.6 },
+        },
+      )
     })
-    return () => mm.revert()
+    return () => ctx.revert()
   }, [])
 
+  // Route strip: unique consecutive places (flag + city)
+  const route = j.stops.map((s) => ({ flag: s.flag, city: s.chip }))
+
   return (
-    <section id="journey" ref={ref} className="relative py-24 sm:py-32 lg:py-40">
-      <div className={container}>
-        <div className="max-w-3xl mb-16">
+    <section id="journey" ref={ref} className="relative overflow-hidden py-24 sm:py-32 lg:py-40">
+      <div className="absolute top-40 -left-40 h-96 w-96 rounded-full bg-primary/10 blur-[130px]" />
+      <div className={`relative ${container}`}>
+        <div className="max-w-3xl">
           <Eyebrow className="mb-5">{j.eyebrow}</Eyebrow>
           <SectionTitle title={j.title} italic={j.titleItalic} />
+          <p className="mt-6 text-white/60 text-base sm:text-lg leading-relaxed max-w-2xl">{j.sub}</p>
         </div>
 
-        <div className="relative">
-          {j.steps.map((s, i) => {
-            const Icon = icons[i]
-            return (
-              <div key={s.title} className="journey-card lg:sticky lg:top-24 mb-6 lg:mb-10 origin-top">
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 rounded-4xl border border-divider bg-surface p-6 sm:p-10 lg:p-12 shadow-2xl shadow-black/50 min-h-[28rem]">
-                  <div className="lg:col-span-3 flex flex-col">
-                    <div className="flex items-center gap-4">
-                      <span className="font-display text-5xl sm:text-6xl font-extrabold tracking-tighter text-white/10">
-                        0{i + 1}
-                      </span>
-                      <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 border border-primary/20 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
-                        <Icon className="h-3.5 w-3.5" />
-                        {s.tag}
-                      </span>
-                      {i === 1 && (
-                        <span className="hidden sm:inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-emerald-400">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 ring-pulse-green" />
-                          Live
+        {/* Route strip */}
+        <div className="mt-10 flex flex-wrap items-center gap-2">
+          {route.map((r, i) => (
+            <span key={i} className="flex items-center gap-2">
+              <span className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm ${i === route.length - 1 ? 'border-primary/40 bg-primary/10 text-white' : 'border-white/10 bg-white/[0.03] text-white/75'}`}>
+                <span className="text-base leading-none">{r.flag}</span>
+                {r.city}
+              </span>
+              {i < route.length - 1 && <ArrowRight className="h-3.5 w-3.5 text-white/30" />}
+            </span>
+          ))}
+        </div>
+
+        {/* Timeline */}
+        <div className="relative mt-16">
+          <div className="absolute top-2 bottom-2 left-5 lg:left-1/2 w-px -translate-x-1/2 bg-divider">
+            <div ref={lineRef} className="absolute inset-0 origin-top bg-gradient-to-b from-primary via-primary to-accent" />
+          </div>
+
+          <div className="space-y-10 lg:space-y-16">
+            {j.stops.map((s, i) => {
+              const left = i % 2 === 0
+              return (
+                <div key={i} className="stop-item relative grid grid-cols-1 lg:grid-cols-2 lg:gap-24 pl-14 lg:pl-0">
+                  {/* Node */}
+                  <span
+                    className={`absolute left-5 lg:left-1/2 top-6 -translate-x-1/2 flex h-11 w-11 items-center justify-center rounded-full border-2 text-lg bg-surface z-10 ${
+                      s.now ? 'border-primary ring-pulse' : 'border-divider'
+                    }`}
+                  >
+                    {s.flag}
+                  </span>
+
+                  {/* Card */}
+                  <div className={`lg:row-start-1 ${left ? 'lg:col-start-1' : 'lg:col-start-2'}`}>
+                    <div className={`rounded-3xl border bg-surface p-6 sm:p-8 transition-colors ${s.now ? 'border-primary/40 shadow-2xl shadow-primary/10' : 'border-divider'}`}>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <span className="inline-flex items-center gap-1.5 font-mono text-[10px] sm:text-xs uppercase tracking-[0.16em] text-primary">
+                          <MapPin className="h-3.5 w-3.5" />
+                          {s.place}
                         </span>
+                        {s.now && (
+                          <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-emerald-500">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 ring-pulse-green" />
+                            Live
+                          </span>
+                        )}
+                        <span className="lg:hidden ml-auto rounded-full bg-white/[0.05] border border-white/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-white/70">
+                          {s.span} {s.unit}
+                        </span>
+                      </div>
+                      <h3 className="mt-4 font-display text-xl sm:text-2xl font-bold tracking-tight text-white">{s.school}</h3>
+                      <p className="mt-3 text-white/60 leading-relaxed">{s.desc}</p>
+                      {s.link && (
+                        <a
+                          href={LINKS.researchPaper}
+                          target="_blank"
+                          rel="noopener"
+                          className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-light transition-colors"
+                        >
+                          <FileText className="h-4 w-4" />
+                          {s.link}
+                          <ArrowUpRight className="h-4 w-4" />
+                        </a>
                       )}
+                      <div className="lg:hidden mt-5">
+                        <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" compact />
+                      </div>
                     </div>
-                    <h3 className="mt-6 font-display text-2xl sm:text-4xl font-bold tracking-tight text-white">{s.title}</h3>
-                    <p className="mt-5 text-white/60 leading-relaxed sm:text-lg">{s.desc}</p>
-                    <ul className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      {s.bullets.map((b) => (
-                        <li key={b} className="rounded-2xl border border-white/5 bg-white/[0.02] px-4 py-3 text-sm text-white/75">
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                    {s.link && (
-                      <a
-                        href={LINKS.researchPaper}
-                        target="_blank"
-                        rel="noopener"
-                        className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-light transition-colors"
-                      >
-                        <FileText className="h-4 w-4" />
-                        {s.link}
-                        <ArrowUpRight className="h-4 w-4" />
-                      </a>
-                    )}
                   </div>
-                  <div className="lg:col-span-2">
-                    <PhotoSlot title={s.photoTitle} desc={s.photoDesc} className="h-full min-h-[14rem]" aspect="" />
+
+                  {/* Aside: big duration + photo (desktop) */}
+                  <div className={`hidden lg:flex lg:row-start-1 flex-col gap-5 ${left ? 'lg:col-start-2 items-start' : 'lg:col-start-1 items-end text-right'}`}>
+                    <p className="font-display font-extrabold tracking-tighter leading-none text-white/[0.12]">
+                      <span className="text-7xl xl:text-8xl">{s.span}</span>
+                      <span className="ml-2 text-2xl align-top text-white/30">{s.unit}</span>
+                    </p>
+                    <PhotoSlot title={s.school} desc={s.photoDesc} aspect="aspect-[16/9]" className="w-full max-w-sm" compact />
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -678,7 +752,6 @@ const PROJECT_META = {
   paper: { Icon: Wind, href: LINKS.researchPaper },
   club: { Icon: TrendingUp, to: '/investment-club' },
   services: { Icon: HandHeart, to: '/services' },
-  gcc: { Icon: Globe2, to: '/services' },
   sport: { Icon: Flag },
 }
 
@@ -720,7 +793,7 @@ function Projects() {
                 </div>
               </>
             )
-            const cls = 'svc-tile group relative bg-deep p-8 sm:p-10 transition-colors duration-300 hover:bg-white/[0.03] block'
+            const cls = `svc-tile group relative bg-deep p-8 sm:p-10 transition-colors duration-300 hover:bg-surface block ${p.key === 'podcast' ? 'sm:col-span-2' : ''}`
             if (href)
               return (
                 <a key={p.key} href={href} target="_blank" rel="noopener" className={cls}>
@@ -745,63 +818,7 @@ function Projects() {
   )
 }
 
-/* ----------------------------------------------------------------
-   Highlights + toolkit
----------------------------------------------------------------- */
-function Highlights() {
-  const { t } = useLang()
-  const h = t.highlights
-  const ref = useReveal()
-  const icons = [Users, Award, Trophy]
-  return (
-    <section ref={ref} className="relative py-24 sm:py-32 lg:py-40">
-      <div className={container}>
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <Eyebrow className="reveal-item mb-5">{h.eyebrow}</Eyebrow>
-          <div className="reveal-item">
-            <SectionTitle title={h.title} italic={h.titleItalic} />
-          </div>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {h.items.map((item, i) => {
-            const Icon = icons[i]
-            return (
-              <div
-                key={item.title}
-                className="reveal-item rounded-3xl border border-divider bg-surface p-8 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary-dark text-deep shadow-lg shadow-primary/20">
-                  <Icon className="h-5 w-5" strokeWidth={2.4} />
-                </span>
-                <h3 className="mt-6 font-display text-lg font-bold text-white">{item.title}</h3>
-                <p className="mt-2 text-white/55 leading-relaxed">{item.desc}</p>
-              </div>
-            )
-          })}
-        </div>
-
-        <div className="reveal-item mt-20 max-w-6xl mx-auto rounded-4xl border border-divider bg-surface/60 p-6 sm:p-10">
-          <p className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.18em] text-white/45 mb-8">{h.skillsTitle}</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {h.skills.map((g) => (
-              <div key={g.group}>
-                <p className="font-display font-semibold text-white">{g.group}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {g.items.map((s) => (
-                    <span key={s} className="rounded-full bg-white/[0.04] border border-white/10 px-3 py-1.5 text-sm text-white/70">
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 /* ----------------------------------------------------------------
    Contact
@@ -885,10 +902,10 @@ function Contact() {
           </div>
 
           <div className="lg:col-span-7 reveal-item">
-            <div className="rounded-4xl border border-divider bg-surface p-6 sm:p-10 shadow-2xl shadow-black/40">
+            <div className="rounded-4xl border border-divider bg-surface p-6 sm:p-10 shadow-2xl shadow-shade/30">
               {status === 'sent' ? (
                 <div className="flex min-h-[26rem] flex-col items-center justify-center text-center">
-                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-deep shadow-xl shadow-primary/30">
+                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-onprimary shadow-xl shadow-primary/30">
                     <Check className="h-8 w-8" strokeWidth={3} />
                   </span>
                   <h3 className="mt-6 font-display text-2xl font-bold text-white">{c.sentTitle}</h3>
@@ -914,7 +931,7 @@ function Contact() {
                   <button
                     type="submit"
                     disabled={status === 'sending'}
-                    className="magnetic-btn mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 font-semibold text-deep shadow-xl shadow-primary/25 disabled:opacity-70"
+                    className="magnetic-btn mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 font-semibold text-onprimary shadow-xl shadow-primary/25 disabled:opacity-70"
                   >
                     {status === 'sending' ? c.sending : c.send}
                     <Send className="h-4 w-4" />
@@ -944,7 +961,6 @@ export default function App() {
       <Pillars />
       <Journey />
       <Projects />
-      <Highlights />
       <Contact />
     </>
   )
