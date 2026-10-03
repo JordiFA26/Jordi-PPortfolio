@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import App from './App.jsx'
 import Podcast from './pages/Podcast.jsx'
 import Services from './pages/Services.jsx'
+import Research from './pages/Research.jsx'
 import { LangProvider, ThemeProvider } from './i18n.jsx'
 import { Footer, Navbar, ScrollManager } from './components.jsx'
 import './index.css'
@@ -39,6 +40,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/" element={<App />} />
               <Route path="/podcast" element={<Podcast />} />
               <Route path="/services" element={<Services />} />
+              <Route path="/research" element={<Research />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>
