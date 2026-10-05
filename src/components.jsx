@@ -193,12 +193,12 @@ export function Navbar() {
     { to: '/#about', label: t.nav.about },
     { to: '/#journey', label: t.nav.journey },
     { to: '/#projects', label: t.nav.projects, menu: true },
-    { to: '/podcast', label: t.nav.podcast },
+    { href: LINKS.podcastSite, label: t.nav.podcast },
     { to: '/#contact', label: t.nav.contact },
   ]
 
   const projects = [
-    { to: '/podcast', Icon: Mic, label: t.nav.menuPodcast, desc: t.nav.menuPodcastDesc },
+    { href: LINKS.podcastSite, Icon: Mic, label: t.nav.menuPodcast, desc: t.nav.menuPodcastDesc },
     { to: '/research', Icon: Wind, label: t.nav.menuPaper, desc: t.nav.menuPaperDesc },
     { to: '/services', Icon: HandHeart, label: t.nav.menuCommunity, desc: t.nav.menuCommunityDesc },
   ]
@@ -287,6 +287,17 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
+              ) : link.href ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex items-center gap-1 text-sm font-medium tracking-tight text-white/70 hover:text-white lift-on-hover transition-colors"
+                >
+                  {link.label}
+                  <ArrowUpRight className="h-3.5 w-3.5 opacity-60" />
+                </a>
               ) : (
                 <Link
                   key={link.to}
@@ -365,6 +376,18 @@ export function Navbar() {
                     </div>
                   </div>
                 </div>
+              ) : link.href ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between font-display text-3xl font-semibold text-white py-3 border-b border-divider"
+                >
+                  {link.label}
+                  <ArrowUpRight className="h-6 w-6 text-white/50" />
+                </a>
               ) : (
                 <Link
                   key={link.to}
@@ -712,8 +735,7 @@ export function Footer() {
           <div>
             <p className={col}>{t.footer.podcast}</p>
             <ul className="space-y-3">
-              <li><Link to="/podcast" className={item}>Inside The Machine</Link></li>
-              <li><a href={LINKS.podcastSite} target="_blank" rel="noopener" className={item}>itm.org.es</a></li>
+              <li><a href={LINKS.podcastSite} target="_blank" rel="noopener" className={item}>Inside The Machine · itm.org.es</a></li>
               <li><a href={LINKS.youtube} target="_blank" rel="noopener" className={item}>YouTube</a></li>
               <li><a href={LINKS.spotify} target="_blank" rel="noopener" className={item}>Spotify</a></li>
               <li><a href={LINKS.tiktok} target="_blank" rel="noopener" className={item}>TikTok</a></li>

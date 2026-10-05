@@ -15,8 +15,8 @@
     },
     {
       "source": "/podcast.html",
-      "destination": "/podcast",
-      "permanent": true
+      "destination": "https://www.itm.org.es",
+      "permanent": false
     },
     {
       "source": "/services.html",
@@ -36,6 +36,11 @@
     {
       "source": "/investing",
       "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/podcast",
+      "destination": "https://www.itm.org.es",
       "permanent": false
     }
   ],

@@ -3,13 +3,20 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import App from './App.jsx'
-import Podcast from './pages/Podcast.jsx'
 import Services from './pages/Services.jsx'
 import Research from './pages/Research.jsx'
 import { LangProvider, ThemeProvider } from './i18n.jsx'
 import { EpisodesProvider } from './episodes.jsx'
 import { Footer, Navbar, ScrollManager } from './components.jsx'
 import './index.css'
+
+// Old /podcast links (bookmarks, shares) go to the official podcast site.
+function ExternalRedirect({ to }) {
+  useEffect(() => {
+    window.location.replace(to)
+  }, [to])
+  return null
+}
 
 function Layout() {
   useEffect(() => {
@@ -40,7 +47,7 @@ createRoot(document.getElementById('root')).render(
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<App />} />
-              <Route path="/podcast" element={<Podcast />} />
+              <Route path="/podcast" element={<ExternalRedirect to="https://www.itm.org.es" />} />
               <Route path="/services" element={<Services />} />
               <Route path="/research" element={<Research />} />
               <Route path="*" element={<Navigate to="/" replace />} />

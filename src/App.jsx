@@ -93,14 +93,16 @@ function Hero() {
             <p className="hero-meta mt-8 max-w-xl text-white/65 text-base sm:text-lg leading-relaxed">{t.hero.sub}</p>
 
             <div className="hero-cta mt-10 flex flex-col sm:flex-row gap-4">
-              <Link
-                to="/podcast"
+              <a
+                href={LINKS.podcastSite}
+                target="_blank"
+                rel="noopener"
                 className="magnetic-btn group inline-flex items-center justify-center gap-2 bg-primary text-onprimary font-semibold px-7 py-4 rounded-full shadow-2xl shadow-primary/30"
               >
                 <Mic className="h-4 w-4" />
                 {t.hero.ctaPrimary}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
               <a
                 href={LINKS.linkedin}
                 target="_blank"
@@ -366,7 +368,7 @@ function Features() {
   const ref = useReveal('.feature-card', { stagger: 0.15 })
 
   const cards = [
-    { ...f.podcast, Visual: EpisodeShuffler, to: '/podcast', Icon: Mic },
+    { ...f.podcast, Visual: EpisodeShuffler, href: LINKS.podcastSite, Icon: Mic },
     { ...f.aero, Visual: AeroWing, to: '/research', Icon: Wind },
     { ...f.now, Visual: StudyScheduler, to: '/#journey', Icon: GraduationCap },
   ]
@@ -725,7 +727,7 @@ function Journey() {
    Projects — dark tile grid
 ---------------------------------------------------------------- */
 const PROJECT_META = {
-  podcast: { Icon: Mic, to: '/podcast' },
+  podcast: { Icon: Mic, href: LINKS.podcastSite },
   paper: { Icon: Wind, to: '/research' },
   fs: { Icon: Gauge, to: '/research' },
   services: { Icon: HandHeart, to: '/services' },
