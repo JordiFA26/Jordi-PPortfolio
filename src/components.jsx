@@ -20,6 +20,7 @@ import {
   Wind,
   HandHeart,
   LayoutGrid,
+  Globe,
 } from 'lucide-react'
 import { useLang, useTheme } from './i18n.jsx'
 import { LINKS } from './data.js'
@@ -712,6 +713,7 @@ export function Footer() {
             <p className={col}>{t.footer.podcast}</p>
             <ul className="space-y-3">
               <li><Link to="/podcast" className={item}>Inside The Machine</Link></li>
+              <li><a href={LINKS.podcastSite} target="_blank" rel="noopener" className={item}>itm.org.es</a></li>
               <li><a href={LINKS.youtube} target="_blank" rel="noopener" className={item}>YouTube</a></li>
               <li><a href={LINKS.spotify} target="_blank" rel="noopener" className={item}>Spotify</a></li>
               <li><a href={LINKS.tiktok} target="_blank" rel="noopener" className={item}>TikTok</a></li>
@@ -752,6 +754,7 @@ export const PLATFORM_ICONS = {
   instagram: Instagram,
   email: Mail,
   linkedin: Linkedin,
+  site: Globe,
 }
 
 export function PlatformLink({ href, icon, name, handle, external = true }) {

@@ -214,6 +214,7 @@ const en = {
     sub: 'Exploring how engineering, design and aerodynamics shape the performance and identity of cars — from road vehicles to race machines — while speaking with the people inside the motorsport world.',
     watch: 'Watch on YouTube',
     listen: 'Listen on Spotify',
+    site: 'Official website',
     chips: ['{n} episodes', 'English & Español'],
     newChip: 'New: Ep. {num} — {title}',
     aboutEyebrow: 'About the show',
@@ -244,6 +245,7 @@ const en = {
     followTitle: 'Listen &',
     followTitleItalic: 'follow.',
     platforms: {
+      site: 'The official podcast website',
       youtube: 'Full episodes & shorts',
       spotify: 'Inside The Machine Podcast',
       tiktok: 'Clips & highlights',
@@ -520,6 +522,7 @@ const es = {
     sub: 'Exploramos cómo la ingeniería, el diseño y la aerodinámica definen el rendimiento y la identidad de los coches, de los de calle a los de competición, hablando con las personas que viven el mundo del motor.',
     watch: 'Ver en YouTube',
     listen: 'Escuchar en Spotify',
+    site: 'Web oficial',
     chips: ['{n} episodios', 'English & Español'],
     newChip: 'Nuevo: Ep. {num} — {title}',
     aboutEyebrow: 'Sobre el programa',
@@ -550,6 +553,7 @@ const es = {
     followTitle: 'Escucha y',
     followTitleItalic: 'síguenos.',
     platforms: {
+      site: 'La web oficial del podcast',
       youtube: 'Episodios completos y shorts',
       spotify: 'Inside The Machine Podcast',
       tiktok: 'Clips y momentos destacados',

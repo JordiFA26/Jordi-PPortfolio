@@ -7,6 +7,7 @@ export const LINKS = {
   spotifyEmbed: 'https://open.spotify.com/embed/show/0h9qnzTYmNVhmcotTQsve1?utm_source=generator&theme=0',
   podcastInstagram: 'https://instagram.com/inside_the_machine_',
   tiktok: 'https://www.tiktok.com/@itm_podcast_',
+  podcastSite: 'https://www.itm.org.es',
   researchPaper: '/aerodynamics-research-paper.pdf',
 }
 

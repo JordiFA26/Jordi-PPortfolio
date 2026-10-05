@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ChevronDown, Mic, Music2, Play, Youtube } from 'lucide-react'
+import { ChevronDown, Globe, Mic, Music2, Play, Youtube } from 'lucide-react'
 import { useLang, useL } from '../i18n.jsx'
 import { LINKS, ytThumb, ytWatch } from '../data.js'
 import { shortTitle, useEpisodes } from '../episodes.jsx'
@@ -81,6 +81,15 @@ export default function Podcast() {
           >
             <Music2 className="h-4 w-4" />
             {p.listen}
+          </a>
+          <a
+            href={LINKS.podcastSite}
+            target="_blank"
+            rel="noopener"
+            className="lift-on-hover inline-flex items-center justify-center gap-2 bg-white/[0.06] backdrop-blur-md text-white border border-white/15 font-medium px-7 py-4 rounded-full hover:bg-white/10 transition-colors"
+          >
+            <Globe className="h-4 w-4" />
+            {p.site}
           </a>
         </div>
         <div className="hero-meta mt-8 flex flex-wrap gap-2">
@@ -258,6 +267,7 @@ export default function Podcast() {
               <SectionTitle title={p.followTitle} italic={p.followTitleItalic} />
             </div>
             <div className="space-y-3">
+              <div className="reveal-item"><PlatformLink href={LINKS.podcastSite} icon="site" name="itm.org.es" handle={p.platforms.site} /></div>
               <div className="reveal-item"><PlatformLink href={LINKS.youtube} icon="youtube" name="YouTube" handle={p.platforms.youtube} /></div>
               <div className="reveal-item"><PlatformLink href={LINKS.spotify} icon="spotify" name="Spotify" handle={p.platforms.spotify} /></div>
               <div className="reveal-item"><PlatformLink href={LINKS.tiktok} icon="tiktok" name="TikTok" handle={`@itm_podcast_ · ${p.platforms.tiktok}`} /></div>
@@ -272,7 +282,7 @@ export default function Podcast() {
             </div>
             <iframe
               className="reveal-item w-full rounded-3xl border border-divider"
-              style={{ height: 352 }}
+              style={{ height: 152, colorScheme: 'normal' }}
               src={LINKS.spotifyEmbed}
               title="Inside The Machine on Spotify"
               allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
