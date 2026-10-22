@@ -9,6 +9,7 @@ export const LINKS = {
   tiktok: 'https://www.tiktok.com/@itm_podcast_',
   podcastSite: 'https://www.itm.org.es',
   researchPaper: '/aerodynamics-research-paper.pdf',
+  fsPaper: '/fs-virtual-skirts-paper.pdf',
 }
 
 // Newest first. Titles stay in the language the episode was recorded in.

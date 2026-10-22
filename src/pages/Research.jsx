@@ -65,7 +65,7 @@ export default function Research() {
                     <div className="mt-auto pt-8">
                       {done && paper.pdf ? (
                         <a
-                          href={LINKS.researchPaper}
+                          href={LINKS[paper.pdf]}
                           target="_blank"
                           rel="noopener"
                           className="magnetic-btn inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-primary px-6 py-4 font-semibold text-onprimary shadow-xl shadow-primary/20"
